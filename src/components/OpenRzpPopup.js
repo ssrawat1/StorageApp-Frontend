@@ -2,8 +2,7 @@ import { RZP_KEY } from '../config';
 
 const OpenRzpPopup = ({ subscriptionId }) => {
   const rzp = new Razorpay({
-    // key: RZP_KEY,
-    key: 'rzp_test_RGwzGasDB8lbVo',
+    key: RZP_KEY,
     amount: 999,
     currency: 'INR',
     name: 'Storage App', // business name
