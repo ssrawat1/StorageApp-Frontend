@@ -9,8 +9,8 @@ import { GITHUB_CLIENT_ID } from './config';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: 'ssr911999@gmail.com',
-    password: 'ssRawat@1',
+    email: '',
+    password: '',
   });
   const [serverError, setServerError] = useState('');
   const [showPassword, setShowPassword] = useState(false);

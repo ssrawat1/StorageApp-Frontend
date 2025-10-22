@@ -10,9 +10,9 @@ import { GITHUB_CLIENT_ID } from './config';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: 'Sanjay Singh Rawat',
-    email: 'ssr911999@gmail.com',
-    password: 'ssRawat@1',
+    name: '',
+    email: '',
+    password: '',
   });
   const [serverError, setServerError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
