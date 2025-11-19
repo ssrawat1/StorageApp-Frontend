@@ -95,7 +95,7 @@ const Register = () => {
 
   const handleGithubLogin = () => {
     const clientId = GITHUB_CLIENT_ID;
-    const redirectUri = 'http://localhost:5173/auth/github';
+    const redirectUri = 'https://www.safemystuff.store/auth/github';
     const scope = 'read:user user:email';
 
     // GitHub OAuth URL
@@ -110,7 +110,7 @@ const Register = () => {
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get('code');
     if (code) {
-      fetch('http://localhost:5000/auth/github', {
+      fetch('https://www.safemystuff.store/auth/github', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),

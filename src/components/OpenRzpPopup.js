@@ -6,7 +6,7 @@ const OpenRzpPopup = ({ subscriptionId }) => {
     amount: 999,
     currency: 'INR',
     name: 'Storage App', // business name
-    image: 'http://localhost:5173/drive.jpg',
+    image: 'https://safemystuff.store/drive.jpg',
     notes: {
       // courseId: course.id,
       // courseName: course.name,

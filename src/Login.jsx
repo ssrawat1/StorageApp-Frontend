@@ -44,7 +44,7 @@ const Login = () => {
 
   const handleGithubLogin = () => {
     const clientId = GITHUB_CLIENT_ID;
-    const redirectUri = 'http://localhost:5173/auth/github';
+    const redirectUri = 'https://www.safemystuff.store/auth/github';
     const scope = 'read:user user:email';
 
     // GitHub OAuth URL
