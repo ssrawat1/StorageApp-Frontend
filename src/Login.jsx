@@ -96,7 +96,7 @@ const Login = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="cursor-pointer p-2 text-gray-600 hover:text-gray-900 rounded-r"
             >
-              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              {!showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
             </button>
           </div>
           {serverError && <span className="text-red-500 text-xs mt-1 block">{serverError}</span>}

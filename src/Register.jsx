@@ -209,7 +209,7 @@ const Register = () => {
               onClick={() => setShowPassword(!showPassword)}
               className=" cursor-pointer absolute right-2 text-gray-600 hover:text-gray-900"
             >
-              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18}/>}
+              {!showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18}/>}
             </button>
           </div>
         </div>
