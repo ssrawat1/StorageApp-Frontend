@@ -158,7 +158,7 @@ function DirectoryView() {
         fileContentType: file.type,
         parentDirectoryId: dirId || '',
       });
-
+     
       const { fileId, uploadSignedUrl } = data;
 
       //Optimistically show the file in the list
