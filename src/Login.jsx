@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { loginUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -13,7 +13,6 @@ const Login = () => {
     password: '',
   });
   const [serverError, setServerError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -83,21 +82,14 @@ const Login = () => {
           <div className="flex items-center border rounded border-gray-300">
             <input
               id="password"
+              type="password"
               name="password"
-              type={showPassword ? 'text' : 'password'}
               required
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               className={`flex-grow p-2 border-0 outline-none rounded-l ${hasError ? 'border-red-500' : 'border-gray-300'}`}
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="cursor-pointer p-2 text-gray-600 hover:text-gray-900 rounded-r"
-            >
-              {!showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-            </button>
           </div>
           {serverError && <span className="text-red-500 text-xs mt-1 block">{serverError}</span>}
         </div>

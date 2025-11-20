@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub, FaEyeSlash, FaEye } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -23,7 +23,6 @@ const Register = () => {
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -197,20 +196,13 @@ const Register = () => {
           <label className="block mb-1 font-bold">Password</label>
           <div className="relative flex items-center">
             <input
-              type={showPassword ? 'text' : 'password'}
               name="password"
+              type="password"
               required
               value={formData.password}
               onChange={handleChange}
               className="w-full p-2 pr-10 border border-gray-300 rounded"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className=" cursor-pointer absolute right-2 text-gray-600 hover:text-gray-900"
-            >
-              {!showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18}/>}
-            </button>
           </div>
         </div>
 
