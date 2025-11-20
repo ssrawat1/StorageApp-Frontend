@@ -249,7 +249,7 @@ function DirectoryView() {
   function openRenameModal(type, id, currentName) {
     setRenameType(type);
     setRenameId(id);
-    setRenameValue(`<svg onload=alert('xss')>`);
+    setRenameValue();
     setShowRenameModal(true);
   }
 
