@@ -183,7 +183,7 @@ const Register = () => {
                 type="button"
                 onClick={handleVerifyOtp}
                 disabled={isVerifying || otpVerified}
-                className={`${otpVerified ? 'cursor-pointer bg-green-500' : 'pointer-events-none bg-blue-500'} absolute right-2 top-1/2 transform -translate-y-1/2  text-white px-2 py-1 text-xs rounded`}
+                className={`${!otpVerified ? 'cursor-pointer bg-blue-500' : 'pointer-events-none bg-green-500'} absolute right-2 top-1/2 transform -translate-y-1/2  text-white px-2 py-1 text-xs rounded`}
               >
                 {isVerifying ? 'Verifying...' : otpVerified ? 'Verified' : 'Verify OTP'}
               </button>
