@@ -77,6 +77,7 @@ const Register = () => {
       setOtpError(err.response?.data?.error || 'Invalid or expired OTP.');
     } finally {
       setIsVerifying(false);
+      setCountdown(0);
     }
   };
 
