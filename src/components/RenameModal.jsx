@@ -7,7 +7,7 @@ function RenameModal({ renameType, renameValue, setRenameValue, onClose, onRenam
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
-      const dotIndex = renameValue.lastIndexOf('.');
+      const dotIndex = renameValue?.lastIndexOf('.');
       if (dotIndex > 0) {
         inputRef.current.setSelectionRange(0, dotIndex);
       } else {
