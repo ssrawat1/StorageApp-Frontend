@@ -303,10 +303,14 @@ function DirectoryView() {
         openDetailsPopup,
       }}
     >
-      <div className="mx-2 md:mx-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
         {errorMessage &&
           errorMessage !== 'Directory not found or you do not have access to it!' && (
-            <div className="error-message text-red-500 text-center">{errorMessage}</div>
+            <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 w-full max-w-md px-4">
+              <div className="bg-red-50 border-l-4 border-red-500 text-red-900 px-4 py-3 rounded-lg shadow-lg">
+                <p className="text-sm font-medium">{errorMessage}</p>
+              </div>
+            </div>
           )}
 
         <DirectoryHeader
@@ -317,49 +321,69 @@ function DirectoryView() {
           handleFileSelect={handleFileSelect}
           disabled={errorMessage === 'Directory not found or you do not have access to it!'}
         />
-        <Breadcrumbs directoriesList={directoriesList} />
-        {showCreateDirModal && (
-          <CreateDirectoryModal
-            newDirname={newDirname}
-            setNewDirname={setNewDirname}
-            onClose={() => setShowCreateDirModal(false)}
-            onCreateDirectory={handleCreateDirectory}
-          />
-        )}
+        
+        <div className="mx-2 md:mx-4 pb-8">
+          <Breadcrumbs directoriesList={directoriesList} />
+          
+          {showCreateDirModal && (
+            <CreateDirectoryModal
+              newDirname={newDirname}
+              setNewDirname={setNewDirname}
+              onClose={() => setShowCreateDirModal(false)}
+              onCreateDirectory={handleCreateDirectory}
+            />
+          )}
 
-        {showRenameModal && (
-          <RenameModal
-            renameType={renameType}
-            renameValue={renameValue}
-            setRenameValue={setRenameValue}
-            onClose={() => setShowRenameModal(false)}
-            onRenameSubmit={handleRenameSubmit}
-          />
-        )}
+          {showRenameModal && (
+            <RenameModal
+              renameType={renameType}
+              renameValue={renameValue}
+              setRenameValue={setRenameValue}
+              onClose={() => setShowRenameModal(false)}
+              onRenameSubmit={handleRenameSubmit}
+            />
+          )}
 
-        {detailsItem && <DetailsPopup item={detailsItem} onClose={closeDetailsPopup} />}
+          {detailsItem && <DetailsPopup item={detailsItem} onClose={closeDetailsPopup} />}
 
-        {combinedItems.length === 0 ? (
-          errorMessage === 'Directory not found or you do not have access to it!' ? (
-            <p className="text-center text-gray-600 mt-4 italic">
-              Directory not found or you do not have access to it!
-            </p>
+          {combinedItems.length === 0 ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center bg-white rounded-lg shadow-md p-8 max-w-md">
+                {errorMessage === 'Directory not found or you do not have access to it!' ? (
+                  <>
+                    <svg className="w-16 h-16 mx-auto text-red-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <p className="text-xl font-semibold text-gray-800 mb-2">Access Denied</p>
+                    <p className="text-gray-600">
+                      Directory not found or you don't have permission to access it.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    <p className="text-xl font-semibold text-gray-800 mb-2">Empty Folder</p>
+                    <p className="text-gray-600">
+                      Upload files or create a folder to get started.
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
           ) : (
-            <p className="text-center text-gray-600 mt-4 italic">
-              This folder is empty. Upload files or create a folder to see some data.
-            </p>
-          )
-        ) : (
-          <DirectoryList items={combinedItems} />
-        )}
+            <DirectoryList items={combinedItems} />
+          )}
 
-        {deleteItem && (
-          <ConfirmDeleteModal
-            item={deleteItem}
-            onConfirm={confirmDelete}
-            onCancel={() => setDeleteItem(null)}
-          />
-        )}
+          {deleteItem && (
+            <ConfirmDeleteModal
+              item={deleteItem}
+              onConfirm={confirmDelete}
+              onCancel={() => setDeleteItem(null)}
+            />
+          )}
+        </div>
       </div>
     </DirectoryContext.Provider>
   );

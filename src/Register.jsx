@@ -153,7 +153,7 @@ const Register = () => {
             <button
               type="button"
               onClick={handleSendOtp}
-              disabled={isSending || countdown > 0}
+              disabled={isSending || countdown > 0 || otpVerified}
               className=" cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-2 py-1 text-xs rounded"
             >
               {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}

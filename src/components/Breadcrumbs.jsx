@@ -10,7 +10,7 @@ const Breadcrumbs = ({ directoriesList }) => {
   }
 
   return (
-    <div className="px-4 py-2">
+    <div className="px-4 pb-4">
       <div className="flex flex-wrap items-center gap-1 text-sm text-gray-700 font-medium">
         {breadcrumb.map(({ id, name }, idx) => {
           const isLast = idx === breadcrumb.length - 1;
