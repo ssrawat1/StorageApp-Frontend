@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# deployment-scripts
+deploy-scripts.sh
+
 # Ignore environment files
 .env
 .env.local
