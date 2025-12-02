@@ -128,7 +128,7 @@ function DirectoryHeader({
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
             <button
-              className=" bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+              className="cursor-pointer bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
               title="Create Folder"
               onClick={onCreateFolderClick}
               disabled={disabled}
@@ -138,7 +138,7 @@ function DirectoryHeader({
             </button>
 
             <button
-              className=" bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+              className=" bg-blue-100 cursor-pointer flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
               title="Upload Files"
               onClick={onUploadFilesClick}
               disabled={disabled}
@@ -159,7 +159,7 @@ function DirectoryHeader({
             {/* User Menu */}
             <div className="relative" ref={userMenuRef}>
               <button
-                className=" bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="cursor-pointer bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 title="User Menu"
                 onClick={handleUserIconClick}
                 aria-label="User Menu"
