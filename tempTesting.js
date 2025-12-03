@@ -2,9 +2,9 @@
 const allTestPassed = true;
 
 if (allTestPassed) {
-  console.log('All test have been passed');
+  console.log('All frontend tests have passed.');
   process.exit(0);
 } else {
-  console.log('All test have been failed');
+  console.log('Frontend tests have failed.');
   process.exit(1);
 }
