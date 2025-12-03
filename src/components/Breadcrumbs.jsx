@@ -5,10 +5,6 @@ const Breadcrumbs = ({ directoriesList }) => {
   if (!directoriesList?.length) return;
   const { breadcrumb } = directoriesList[0];
 
-  // if (breadcrumb[0]?.name.startsWith('root-')) {
-  //   breadcrumb[0].name = 'My Drive';
-  // }
-
   return (
     <div className="px-4 pb-4">
       <div className="flex flex-wrap items-center gap-1 text-sm text-gray-700 font-medium">
