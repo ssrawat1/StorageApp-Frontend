@@ -114,7 +114,12 @@ function DirectoryHeader({
       <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div
+            className="flex items-center gap-2 flex-shrink-0"
+            onClick={(e) => {
+              navigate('/');
+            }}
+          >
             <img
               src="/drive.jpg"
               className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-full p-1 bg-gradient-to-br from-blue-500 to-blue-600 shadow-md"
