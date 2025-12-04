@@ -149,6 +149,7 @@ const Login = () => {
                 text="continue_with"
                 size="large"
                 logo_alignment="left"
+                auto_select={false}
               />
             </div>
 
