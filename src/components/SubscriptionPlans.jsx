@@ -95,9 +95,9 @@ const SubscriptionPlans = () => {
             <div className="flex justify-start mb-4">
               <Link
                 to="/"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 rounded-full shadow-sm hover:shadow transition-all duration-200"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-base font-semibold text-gray-700 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-blue-500 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
               >
-                <FaHome className="text-blue-600" />
+                <FaHome className="text-blue-600 text-lg" />
                 <span>Home</span>
               </Link>
             </div>
@@ -115,21 +115,17 @@ const SubscriptionPlans = () => {
           <div className="hidden lg:flex items-center justify-between">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 rounded-full shadow-sm hover:shadow transition-all duration-200"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-base font-semibold text-gray-700 bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-blue-500 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
             >
-              <FaHome className="text-blue-600" />
+              <FaHome className="text-blue-600 text-lg" />
               <span>Home</span>
             </Link>
-            
+
             <div className="text-center flex-1 px-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Choose Your Perfect Plan
-              </h1>
-              <p className="text-base text-gray-600">
-                Get more storage with our discounted plans
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Choose Your Perfect Plan</h1>
+              <p className="text-base text-gray-600">Get more storage with our discounted plans</p>
             </div>
-            
+
             <div className="w-[100px]"></div>
           </div>
         </div>
@@ -167,11 +163,15 @@ const SubscriptionPlans = () => {
             <div
               key={id}
               className={`relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                recommended ? 'border-2 border-blue-400' : 'border border-gray-200'
+                recommended
+                  ? 'border-2 border-blue-400 hover:border-blue-600'
+                  : 'border-2 border-gray-200 hover:border-green-400'
               }`}
             >
               {/* Badge at top */}
-              <div className={`${badgeColor} text-white text-center py-1.5 sm:py-2 text-xs sm:text-sm font-bold`}>
+              <div
+                className={`${badgeColor} text-white text-center py-1.5 sm:py-2 text-xs sm:text-sm font-bold`}
+              >
                 {badge}
               </div>
 
@@ -217,7 +217,10 @@ const SubscriptionPlans = () => {
                     'Optimized file transfer',
                     'Email & chat support',
                   ].map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2 text-xs sm:text-sm text-gray-700">
+                    <li
+                      key={index}
+                      className="flex items-start gap-2 text-xs sm:text-sm text-gray-700"
+                    >
                       <FaCheck className="text-green-600 flex-shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </li>
