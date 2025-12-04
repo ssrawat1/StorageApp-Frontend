@@ -31,6 +31,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await loginUser(formData);
+      console.log(data)
       if (data.error) setServerError(data.error);
       else navigate('/');
     } catch (err) {
