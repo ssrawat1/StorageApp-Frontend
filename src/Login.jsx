@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { loginUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub} from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -128,6 +128,7 @@ const Login = () => {
           theme="filled_blue"
           width={230}
           text="continue_with"
+          prompt="concent"
           useOneTap
         />
       </div>
