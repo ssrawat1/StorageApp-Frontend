@@ -272,8 +272,7 @@ const Register = () => {
                 theme="outline"
                 text="continue_with"
                 size="large"
-                width="100%"
-                logo_alignment="left"
+                logo_alignment="center"
               />
             </div>
 

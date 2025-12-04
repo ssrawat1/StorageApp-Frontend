@@ -148,7 +148,6 @@ const Login = () => {
                 theme="outline"
                 text="continue_with"
                 size="large"
-                width="100%"
                 logo_alignment="center"
               />
             </div>
