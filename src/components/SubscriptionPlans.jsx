@@ -164,8 +164,8 @@ const SubscriptionPlans = () => {
               key={id}
               className={`relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden ${
                 recommended
-                  ? 'border-2 border-blue-400 hover:border-blue-600'
-                  : 'border-2 border-gray-200 hover:border-green-400'
+                  ? 'border-2 border-blue-400 hover:border-purple-600'
+                  : 'border-2 border-gray-200 hover:border-purple-400'
               }`}
             >
               {/* Badge at top */}
