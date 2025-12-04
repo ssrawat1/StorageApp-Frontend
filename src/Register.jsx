@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaEnvelope, FaLock, FaUser, FaCheckCircle } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -44,10 +44,7 @@ const Register = () => {
     }
     setFormData((prev) => ({
       ...prev,
-      [name]: DOMPurify.sanitize(value, {
-        ALLOWED_TAGS: [], // No HTML tags
-        ALLOWED_ATTR: [], // No attributes
-      }),
+      [name]: DOMPurify.sanitize(value),
     }));
   };
 
@@ -97,162 +94,211 @@ const Register = () => {
     const clientId = GITHUB_CLIENT_ID;
     const redirectUri = 'https://www.safemystuff.store/auth/github';
     const scope = 'read:user user:email';
-
-    // GitHub OAuth URL
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
       redirectUri
     )}&scope=${scope}`;
-
-    // Open GitHub popup (like Google)
-    window.location.href = githubAuthUrl;
   };
 
-  useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (code) {
-      fetch('https://www.safemystuff.store/auth/github', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          localStorage.setItem('token', data.token);
-          navigate('/');
-        });
-    }
-  }, [navigate]);
-
   return (
-    <div className="max-w-md mx-auto p-5">
-      <h2 className="text-center text-2xl font-semibold mb-3">Register</h2>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
-        <div className="relative mb-3">
-          <label className="block mb-1 font-bold">Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-lg">
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 border border-gray-200">
+          {/* Header */}
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+            <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
+          </div>
 
-        <div className="relative mb-3">
-          <label className="block mb-1 font-bold">Email</label>
-          <div className="relative">
-            <input
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full p-2 pr-24 border ${serverError ? 'border-red-500' : 'border-gray-300'} rounded`}
-            />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaUser className="text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            {/* Email Field with OTP Button */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaEnvelope className="text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={isSending || countdown > 0 || otpVerified}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
+                </button>
+              </div>
+              {serverError && (
+                <p className="text-red-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
+                  <span className="font-semibold">⚠</span> {serverError}
+                </p>
+              )}
+            </div>
+
+            {/* OTP Input Field */}
+            {otpSent && (
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Enter OTP</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    maxLength={4}
+                    placeholder="Enter 4-digit OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(DOMPurify.sanitize(e.target.value))}
+                    className="w-full pl-4 pr-28 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center text-lg font-semibold tracking-widest"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleVerifyOtp}
+                    disabled={isVerifying || otpVerified}
+                    className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${
+                      otpVerified
+                        ? 'bg-green-600 text-white cursor-default'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+                    }`}
+                  >
+                    {isVerifying ? (
+                      'Verifying...'
+                    ) : otpVerified ? (
+                      <>
+                        <FaCheckCircle /> Verified
+                      </>
+                    ) : (
+                      'Verify'
+                    )}
+                  </button>
+                </div>
+                {otpError && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
+                    <span className="font-semibold">⚠</span> {otpError}
+                  </p>
+                )}
+                {otpVerified && (
+                  <p className="text-green-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
+                    <FaCheckCircle /> Email verified successfully!
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Password Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaLock className="text-gray-400" />
+                </div>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Create a strong password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            {/* Submit Button */}
             <button
-              type="button"
-              onClick={handleSendOtp}
-              disabled={isSending || countdown > 0 || otpVerified}
-              className=" cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-2 py-1 text-xs rounded"
+              type="submit"
+              disabled={!otpVerified || isSuccess}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-blue-400 disabled:to-blue-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg transform"
             >
-              {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
+              {isSuccess ? '✓ Registration Successful!' : 'Create Account'}
+            </button>
+          </form>
+
+          {/* Login Link */}
+          <p className="text-center mt-5 text-sm text-gray-700">
+            Already have an account?{' '}
+            <Link
+              className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
+              to="/login"
+            >
+              Sign In
+            </Link>
+          </p>
+
+          {/* Divider */}
+          <div className="relative text-center my-6">
+            <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gray-300"></div>
+            <span className="relative bg-white px-4 text-xs sm:text-sm text-gray-600 font-medium">
+              Or continue with
+            </span>
+          </div>
+
+          {/* Social Login Buttons */}
+          <div className="space-y-3">
+            {/* Google Login - Full Width */}
+            <div className="w-full">
+              <GoogleLogin
+                onSuccess={async (cred) => {
+                  const data = await loginWithGoogle(cred.credential);
+                  if (!data.error) navigate('/');
+                }}
+                onError={() => console.log('Google Login Failed')}
+                theme="outline"
+                text="continue_with"
+                size="large"
+                width="100%"
+                logo_alignment="left"
+              />
+            </div>
+
+            {/* GitHub Login - Full Width */}
+            <button
+              onClick={handleGithubLogin}
+              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+            >
+              <FaGithub className="text-xl" />
+              <span>Continue with GitHub</span>
             </button>
           </div>
-          {serverError && <span className="absolute text-xs text-red-500 mt-1">{serverError}</span>}
+
+          {/* Footer Note */}
+          <p className="text-center text-xs text-gray-500 mt-6">
+            By creating an account, you agree to our{' '}
+            <a href="#" className="text-blue-600 hover:underline">
+              Terms
+            </a>{' '}
+            and{' '}
+            <a href="#" className="text-blue-600 hover:underline">
+              Privacy Policy
+            </a>
+          </p>
         </div>
-
-        {otpSent && (
-          <div className="relative mb-3">
-            <label className="block mb-1 font-bold">Enter OTP</label>
-            <div className="relative">
-              <input
-                type="text"
-                maxLength={4}
-                value={otp}
-                onChange={(e) =>
-                  setOtp(
-                    DOMPurify.sanitize(e.target.value, {
-                      ALLOWED_TAGS: [], // No HTML tags
-                      ALLOWED_ATTR: [], // No attributes
-                    })
-                  )
-                }
-                className="w-full p-2 pr-24 border border-gray-300 rounded"
-              />
-              <button
-                type="button"
-                onClick={handleVerifyOtp}
-                disabled={isVerifying || otpVerified}
-                className={`${!otpVerified ? 'cursor-pointer bg-blue-500' : 'pointer-events-none bg-green-500'} absolute right-2 top-1/2 transform -translate-y-1/2  text-white px-2 py-1 text-xs rounded`}
-              >
-                {isVerifying ? 'Verifying...' : otpVerified ? 'Verified' : 'Verify OTP'}
-              </button>
-            </div>
-            {otpError && <span className="absolute text-xs text-red-500 mt-1">{otpError}</span>}
-          </div>
-        )}
-
-        <div className="mb-3">
-          <label className="block mb-1 font-bold">Password</label>
-          <div className="relative flex items-center">
-            <input
-              name="password"
-              type="password"
-              required
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-2 pr-10 border border-gray-300 rounded"
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          className={`bg-blue-500 text-white py-2 rounded w-full font-medium ${!otpVerified || isSuccess ? 'cursor-not-allowed opacity-70' : 'hover:opacity-90 cursor-pointer '}`}
-          disabled={!otpVerified || isSuccess}
-        >
-          {isSuccess ? 'Registration Successful' : 'Register'}
-        </button>
-      </form>
-
-      <p className="text-center mt-3">
-        Already have an account?{' '}
-        <Link to="/login" className="text-blue-600 hover:underline">
-          Login
-        </Link>
-      </p>
-
-      <div className="relative text-center my-3">
-        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>
-        <span className="relative bg-white px-2 text-xs text-gray-600">Or</span>
-      </div>
-
-      <div className="flex justify-center">
-        <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            const data = await loginWithGoogle(credentialResponse.credential);
-            if (!data.error) navigate('/');
-          }}
-          onError={() => console.log('Login Failed')}
-          theme="filled_blue"
-          width={230}
-          text="continue_with"
-          useOneTap
-         />
-      </div>
-      <div className="relative text-center my-2">
-        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>
-        <span className="relative bg-white px-2 text-xs text-gray-600">Or</span>
-      </div>
-      <div className="flex justify-center mt-1">
-        <button
-          onClick={handleGithubLogin}
-          className=" cursor-pointer flex items-center bg-gray-800 text-white py-2 px-4 rounded hover:opacity-85"
-        >
-          <FaGithub className="mr-2" size={20} />
-          Continue with GitHub
-        </button>
       </div>
     </div>
   );
