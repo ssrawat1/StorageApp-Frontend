@@ -9,14 +9,14 @@ const SubscriptionPlans = () => {
   const [plan, setPlan] = useState('monthly');
   const plans = {
     monthly: [
-      { id: 'plan_RU8119E96NtaJs', name: 'Lite', amount: 199, storage: 2, recommended: true },
-      { id: 'plan_RUAZfzDby6GfZw', name: 'Basic', amount: 399, storage: 5 },
-      { id: 'plan_RUAZxJ9j4nHSC4', name: 'Standard', amount: 599, storage: 10 },
+      { id: 'plan_RTzvPDYfL51wb4', name: 'Lite', amount: 199, storage: 2, recommended: true },
+      { id: 'plan_RTzwVP4frFM6eC', name: 'Basic', amount: 399, storage: 5 },
+      { id: 'plan_RTzxIGdOeSbTXg', name: 'Standard', amount: 599, storage: 10 },
     ],
     annual: [
-      { id: 'plan_RUAakegDqZirNq', name: 'Lite', amount: 1999, storage: 2, recommended: true },
-      { id: 'plan_RUAaYUVYz53nmZ', name: 'Basic', amount: 3999, storage: 5 },
-      { id: 'plan_RUAaMwMwCBFZt1', name: 'Standard', amount: 5999, storage: 10 },
+      { id: 'plan_RTzu1I9F9pAQ52', name: 'Lite', amount: 1999, storage: 2, recommended: true },
+      { id: 'plan_RTzsZJCddOmQQc', name: 'Basic', amount: 3999, storage: 5 },
+      { id: 'plan_RTzki62AqExECc', name: 'Standard', amount: 5999, storage: 10 },
     ],
   };
 
