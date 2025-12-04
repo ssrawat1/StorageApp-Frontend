@@ -238,9 +238,8 @@ const Register = () => {
           theme="filled_blue"
           width={230}
           text="continue_with"
-          prompt="concent"
           useOneTap
-        />
+         />
       </div>
       <div className="relative text-center my-2">
         <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>

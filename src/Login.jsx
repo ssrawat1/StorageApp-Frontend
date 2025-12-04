@@ -128,7 +128,6 @@ const Login = () => {
           theme="filled_blue"
           width={230}
           text="continue_with"
-          prompt="concent"
           useOneTap
         />
       </div>
