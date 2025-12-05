@@ -149,12 +149,14 @@ const Login = () => {
                   if (!data.error) navigate('/');
                 }}
                 onError={() => console.log('Google Login Failed')}
+                type="standard"
                 theme="outline"
                 text="continue_with"
+                shape="rectangular"
                 size="large"
-                logo_alignment="center"
+                logo_alignment="left"
                 auto_select={false}
-                useOneTap
+                use_fedcm_for_prompt={false}
               />
             </div>
 

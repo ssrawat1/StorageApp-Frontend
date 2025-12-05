@@ -235,7 +235,7 @@ const Register = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                   required
+                  required
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
@@ -290,8 +290,7 @@ const Register = () => {
               logo_alignment="left"
               auto_select={false}
               use_fedcm_for_prompt={false}
-              useOneTap
-             />
+            />
 
             {/* GitHub Login - Full Width */}
             <button
