@@ -5,8 +5,8 @@ import Login from './Login';
 import UsersPage from './UsersPage';
 import GithubAuth from './components/GithubAuth';
 import SubscriptionPlans from './components/SubscriptionPlans';
-import NotFound from './NotFound';
-  
+import NotFoundPage from './NotFoundPage';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,17 +30,17 @@ const router = createBrowserRouter([
     element: <DirectoryView />,
   },
   {
-    path:"/auth/github",
-    element:<GithubAuth/>
+    path: '/auth/github',
+    element: <GithubAuth />,
   },
   {
-    path:"/Plans",
-    element:<SubscriptionPlans/>
+    path: '/Plans',
+    element: <SubscriptionPlans />,
   },
   {
-    path: "*",
-    element: <NotFound />
-  }
+    path: '*',
+    element: <NotFoundPage />,
+  },
 ]);
 
 function App() {
