@@ -201,7 +201,7 @@ const Register = () => {
                   </button>
                 </div>
                 {otpError && (
-                  <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                  <p className="text-red-600 text-xs mt-2 flex items-center gap-1">
                     <span className="font-semibold">⚠</span> {otpError}
                   </p>
                 )}
