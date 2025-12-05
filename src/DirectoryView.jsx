@@ -34,7 +34,7 @@ function DirectoryView() {
   const [renameType, setRenameType] = useState(null);
   const [renameId, setRenameId] = useState(null);
   const [renameValue, setRenameValue] = useState('');
-  const [breadcrumbPath, setBreadcrumbPath] = useState([])
+  const [breadcrumbPath, setBreadcrumbPath] = useState([]);
 
   const fileInputRef = useRef(null);
 
@@ -55,11 +55,10 @@ function DirectoryView() {
   const loadDirectory = async () => {
     try {
       const data = await getDirectoryItems(dirId);
-      console.log({directoryPathData:data})
       setDirectoryName(dirId ? data.name : 'My Drive');
       setDirectoriesList([...data.directories].reverse());
       setFilesList([...data.files].reverse());
-      setBreadcrumbPath(data.breadcrumbPath)
+      setBreadcrumbPath(data.breadcrumbPath);
     } catch (err) {
       if (err.response?.status === 401) navigate('/login');
       else setErrorMessage(err.response?.data?.error || err.message);
@@ -321,6 +320,7 @@ function DirectoryView() {
           onCreateFolderClick={() => setShowCreateDirModal(true)}
           onUploadFilesClick={() => fileInputRef.current.click()}
           fileInputRef={fileInputRef}
+          filesList={filesList}
           handleFileSelect={handleFileSelect}
           disabled={errorMessage === 'Directory not found or you do not have access to it!'}
         />
@@ -388,7 +388,9 @@ function DirectoryView() {
                       />
                     </svg>
                     <p className="text-xl text-gray-400 mb-2">Empty Folder</p>
-                    <em className="text-gray-400">Upload files or create a folder to get started.</em>
+                    <em className="text-gray-400">
+                      Upload files or create a folder to get started.
+                    </em>
                   </>
                 )}
               </div>

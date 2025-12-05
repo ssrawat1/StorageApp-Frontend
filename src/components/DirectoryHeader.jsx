@@ -19,6 +19,7 @@ function DirectoryHeader({
   fileInputRef,
   handleFileSelect,
   disabled = false,
+  filesList,
 }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -51,7 +52,7 @@ function DirectoryHeader({
       }
     }
     loadUser();
-  }, []);
+  }, [filesList]);
 
   const handleUserIconClick = async () => {
     // try {
@@ -226,7 +227,7 @@ function DirectoryHeader({
                       <div className="py-2 px-2 space-y-2">
                         {/* Logout */}
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 
+                          className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
                text-sm font-medium text-red-600 
                bg-red-50 hover:bg-red-100 
                rounded-lg transition-all"
@@ -238,7 +239,7 @@ function DirectoryHeader({
 
                         {/* Logout All */}
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 
+                          className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
                text-sm font-medium text-red-700 
                bg-red-50 hover:bg-red-100 
                rounded-lg transition-all"
@@ -381,7 +382,7 @@ function DirectoryHeader({
                   <div className="py-2 px-2 space-y-2">
                     {/* Logout */}
                     <button
-                      className="w-full flex items-center gap-3 px-4 py-2.5 
+                      className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
                text-sm font-medium text-red-600 
                bg-red-50 hover:bg-red-100 
                rounded-lg transition-all"
@@ -393,7 +394,7 @@ function DirectoryHeader({
 
                     {/* Logout All */}
                     <button
-                      className="w-full flex items-center gap-3 px-4 py-2.5 
+                      className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
                text-sm font-medium text-red-700 
                bg-red-50 hover:bg-red-100 
                rounded-lg transition-all"
