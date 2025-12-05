@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub, FaEnvelope, FaLock, FaUser, FaCheckCircle } from 'react-icons/fa';
+import { FaGithub, FaEnvelope, FaLock, FaUser, FaCheckCircle, FaGoogle } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -105,7 +105,9 @@ const Register = () => {
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 border border-gray-200">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              Create Account
+            </h2>
             <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
           </div>
 
@@ -157,12 +159,17 @@ const Register = () => {
                   {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
                 </button>
               </div>
-              {serverError && (
-                <p className="text-red-600 mt-2 text-sm flex items-center gap-1">
-                  <span className="font-semibold">⚠</span> {serverError}
-                </p>
-              )}
             </div>
+
+            {/* Server Error Message - Separate Alert Box */}
+            {serverError && (
+              <div className="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                <p className="text-red-700 text-sm flex items-start gap-2">
+                  <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                  <span className="leading-relaxed">{serverError}</span>
+                </p>
+              </div>
+            )}
 
             {/* OTP Input Field */}
             {otpSent && (
@@ -198,13 +205,20 @@ const Register = () => {
                     )}
                   </button>
                 </div>
+                
+                {/* OTP Error Message - Separate Alert Box */}
                 {otpError && (
-                  <p className="text-red-600 text-xs mt-2 flex items-center gap-1">
-                    <span className="font-semibold">⚠</span> {otpError}
-                  </p>
+                  <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                    <p className="text-red-700 text-sm flex items-start gap-2">
+                      <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                      <span className="leading-relaxed">{otpError}</span>
+                    </p>
+                  </div>
                 )}
+                
+                {/* OTP Success Message */}
                 {otpVerified && (
-                  <p className="text-green-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
+                  <p className="text-green-600 text-sm mt-2 flex items-center gap-2 animate-fadeIn">
                     <FaCheckCircle /> Email verified successfully!
                   </p>
                 )}
@@ -243,10 +257,7 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center mt-5 text-sm text-gray-700">
             Already have an account?{' '}
-            <Link
-              className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
-              to="/login"
-            >
+            <Link className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors" to="/login">
               Sign In
             </Link>
           </p>
@@ -261,23 +272,20 @@ const Register = () => {
 
           {/* Social Login Buttons */}
           <div className="space-y-3">
-            {/* Google Login - Full Width */}
-            <div className="w-full">
-              <GoogleLogin
-                onSuccess={async (cred) => {
-                  const data = await loginWithGoogle(cred.credential);
-                  if (!data.error) navigate('/');
-                }}
-                onError={() => console.log('Google Login Failed')}
-                theme="outline"
-                text="continue_with"
-                size="large"
-                width="100%"
-                logo_alignment="center"
-                auto_select={false}
-                useOneTap
-              />
-            </div>
+            {/* Custom Google Button - Full Width, No Auto-fill */}
+            <GoogleLogin
+              onSuccess={async (cred) => {
+                const data = await loginWithGoogle(cred.credential);
+                if (!data.error) navigate('/');
+              }}
+              onError={() => console.log('Google Login Failed')}
+              type="standard"
+              theme="outline"
+              text="continue_with"
+              shape="rectangular"
+              logo_alignment="center"
+              width="384"
+            />
 
             {/* GitHub Login - Full Width */}
             <button
@@ -292,13 +300,8 @@ const Register = () => {
           {/* Footer Note */}
           <p className="text-center text-xs text-gray-500 mt-6">
             By creating an account, you agree to our{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Terms
-            </a>{' '}
-            and{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Privacy Policy
-            </a>
+            <a href="#" className="text-blue-600 hover:underline">Terms</a> and{' '}
+            <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
           </p>
         </div>
       </div>
