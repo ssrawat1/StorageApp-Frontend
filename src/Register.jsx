@@ -282,6 +282,11 @@ const Register = () => {
                 if (!data.error) navigate('/');
               }}
               onError={() => console.log('Google Login Failed')}
+              render={(props) => (
+                <button onClick={props.onClick} disabled={props.disabled}>
+                  Continue with Google
+                </button>
+              )}
               type="standard"
               theme="outline"
               text="continue_with"
