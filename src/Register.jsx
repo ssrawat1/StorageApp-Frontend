@@ -288,6 +288,7 @@ const Register = () => {
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
+              width={200}
               auto_select={false}
               useOneTap
             />
