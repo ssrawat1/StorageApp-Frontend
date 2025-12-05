@@ -252,7 +252,7 @@ function DirectoryHeader({
                       <div className="px-4 pb-4">
                         <Link
                           to="/plans"
-                          className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="block text-center px-2 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           onClick={() => setShowUserMenu(false)}
                         >
                           Get more storage
@@ -370,7 +370,7 @@ function DirectoryHeader({
 
                   <Link
                     to="/plans"
-                    className="block text-center px-4 py-2.5 mb-3 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-all duration-200"
+                    className="block text-center px-2 py-2.5 mb-3 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-all duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowMobileMenu(false);
