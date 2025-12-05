@@ -105,9 +105,7 @@ const Register = () => {
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 border border-gray-200">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Create Account
-            </h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
             <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
           </div>
 
@@ -205,7 +203,7 @@ const Register = () => {
                     )}
                   </button>
                 </div>
-                
+
                 {/* OTP Error Message - Separate Alert Box */}
                 {otpError && (
                   <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
@@ -215,7 +213,7 @@ const Register = () => {
                     </p>
                   </div>
                 )}
-                
+
                 {/* OTP Success Message */}
                 {otpVerified && (
                   <p className="text-green-600 text-sm mt-2 flex items-center gap-2 animate-fadeIn">
@@ -257,7 +255,10 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center mt-5 text-sm text-gray-700">
             Already have an account?{' '}
-            <Link className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors" to="/login">
+            <Link
+              className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
+              to="/login"
+            >
               Sign In
             </Link>
           </p>
@@ -283,9 +284,7 @@ const Register = () => {
               theme="outline"
               text="continue_with"
               shape="rectangular"
-              logo_alignment="left"
-              width="430"
-              useOneTap
+              logo_alignment="center"
             />
 
             {/* GitHub Login - Full Width */}
@@ -301,8 +300,13 @@ const Register = () => {
           {/* Footer Note */}
           <p className="text-center text-xs text-gray-500 mt-6">
             By creating an account, you agree to our{' '}
-            <a href="#" className="text-blue-600 hover:underline">Terms</a> and{' '}
-            <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+            <a href="#" className="text-blue-600 hover:underline">
+              Terms
+            </a>{' '}
+            and{' '}
+            <a href="#" className="text-blue-600 hover:underline">
+              Privacy Policy
+            </a>
           </p>
         </div>
       </div>
