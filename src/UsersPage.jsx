@@ -17,16 +17,29 @@ export default function UsersPage() {
   const [roleId, setRoleId] = useState(null);
   const [invalidRoleError, setInvalidRoleError] = useState('');
   const [resStatus, setResStatus] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   const navigate = useNavigate();
   const accountStatus = ['all', 'active', 'deleted'];
-
   const roleAllowed = ['Admin', 'User', 'Owner', 'Manager'];
+
+  // Auto-dismiss toast after 3 seconds
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   const capitalizeRole = (word) => {
     const newWord = word.toLowerCase();
     return newWord.charAt(0).toUpperCase() + newWord.slice(1).toLowerCase();
   };
-  
+
   const handleRoleSubmit = async (e) => {
     e.preventDefault();
     if (!roleAllowed.includes(capitalizeRole(newRole) || !newRole)) {
@@ -56,8 +69,6 @@ export default function UsersPage() {
   };
 
   const filteredUsers = users.filter(filterMap[query] || filterMap.all);
-
-  console.log(filteredUsers);
 
   const logoutUser = async (user) => {
     const confirmed = confirm(`Logout ${user.email}?`);
@@ -91,11 +102,25 @@ export default function UsersPage() {
       const data = await fetchAllUsers();
       setUsers(data);
     } catch (err) {
-      console.log('err:', err.response.data.error);
-      setRouteAccessError(err.response.data.error);
-      if (err.response?.status === 403) setResStatus(err.response.status);
-      else if (err.response?.status === 401) setResStatus(err.response.status);
-      else console.error('Fetching users failed:', err);
+      const errorMessage = err.response?.data?.error || 'Access denied';
+      console.log('err:', errorMessage);
+
+      // Show toast and redirect to home
+      if (err.response?.status === 403) {
+        setToastMessage(errorMessage);
+        setShowToast(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 1000); // Redirect after 1 second
+      } else if (err.response?.status === 401) {
+        setToastMessage('Please login to continue');
+        setShowToast(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      } else {
+        console.error('Fetching users failed:', err);
+      }
     }
   }
 
@@ -106,35 +131,54 @@ export default function UsersPage() {
       setUserEmail(data.email);
       setUserRole(data.role);
     } catch (err) {
-      if (err.response?.status === 401) navigate('/login');
-      else console.error('Fetching user failed:', err);
+      if (err.response?.status === 401) {
+        setToastMessage('Please login to continue');
+        setShowToast(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      } else {
+        console.error('Fetching user failed:', err);
+      }
     }
   }
 
   return (
     <>
-      {/* Error Toast */}
-      {(routeAccessError || invalidRoleError) && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4 animate-slideDown">
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-900 px-4 py-3 rounded-lg shadow-lg flex items-start justify-between">
+      {/* Toast Notification - Top Right */}
+      {showToast && (
+        <div className="fixed top-4 right-4 z-50 animate-slideInRight">
+          <div className="bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-lg p-4 max-w-sm">
             <div className="flex items-start gap-3">
-              <svg className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
               </svg>
-              <span className="text-sm font-medium">{routeAccessError || invalidRoleError}</span>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-red-900">{toastMessage}</p>
+                <p className="text-xs text-red-700 mt-1">Redirecting...</p>
+              </div>
+              <button
+                onClick={() => setShowToast(false)}
+                className="text-red-500 hover:text-red-700 transition-colors"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
             </div>
-            <button
-              className="text-red-500 hover:text-red-700 font-bold text-xl leading-none cursor-pointer ml-4"
-              onClick={() => {
-                if (resStatus === 403) navigate('/');
-                else if (resStatus === 401) navigate('/login');
-                setRouteAccessError('');
-                setInvalidRoleError('');
-              }}
-              aria-label="Close"
-            >
-              ×
-            </button>
           </div>
         </div>
       )}
@@ -158,16 +202,12 @@ export default function UsersPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               {/* Left: Admin Info */}
               <div className="flex-shrink-0">
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-                  User Dashboard
-                </h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">User Dashboard</h1>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-green-500 to-green-600 text-white shadow-sm">
                     {userName}
                   </span>
-                  <span className="text-sm text-gray-600 font-medium">
-                    ({userRole})
-                  </span>
+                  <span className="text-sm text-gray-600 font-medium">({userRole})</span>
                 </div>
               </div>
 
@@ -202,15 +242,25 @@ export default function UsersPage() {
           {filteredUsers.length === 0 ? (
             <div className="flex items-center justify-center min-h-[400px]">
               <div className="text-center bg-white rounded-lg shadow-md p-8 max-w-md">
-                <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                <svg
+                  className="w-16 h-16 mx-auto text-gray-400 mb-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
                 </svg>
                 <p className="text-xl font-semibold text-gray-800 mb-2">
                   {userRole !== 'Owner' ? 'No Active Users' : 'No Deleted Users'}
                 </p>
                 <p className="text-gray-600">
-                  {userRole !== 'Owner' 
-                    ? 'No users are currently logged in' 
+                  {userRole !== 'Owner'
+                    ? 'No users are currently logged in'
                     : 'No users have been deleted'}
                 </p>
               </div>
@@ -261,11 +311,7 @@ export default function UsersPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span
-                              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                                user.isLoggedIn
-                                  ? 'bg-green-100 text-green-800'
-                                  : 'bg-gray-100 text-gray-800'
-                              }`}
+                              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
                             >
                               {user.isLoggedIn ? 'Active' : 'Inactive'}
                             </span>
@@ -274,11 +320,7 @@ export default function UsersPage() {
                             <button
                               onClick={() => logoutUser(user)}
                               disabled={!user.isLoggedIn}
-                              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                                user.isLoggedIn
-                                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md'
-                                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                              }`}
+                              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                             >
                               Logout
                             </button>
@@ -288,11 +330,7 @@ export default function UsersPage() {
                               <button
                                 onClick={() => deleteUser(user)}
                                 disabled={user.email === userEmail || user.isDeleted}
-                                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                                  user.isDeleted || user.email === userEmail
-                                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                                    : 'bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md'
-                                }`}
+                                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md'}`}
                               >
                                 Delete
                               </button>
@@ -333,43 +371,28 @@ export default function UsersPage() {
                         <p className="text-sm text-gray-600 truncate mt-1">{user.email}</p>
                       </div>
                       <span
-                        className={`ml-3 flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                          user.isLoggedIn
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}
+                        className={`ml-3 flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
                       >
                         {user.isLoggedIn ? 'Active' : 'Inactive'}
                       </span>
                     </div>
-
                     <div className="flex flex-wrap gap-2 mt-4">
                       <button
                         onClick={() => logoutUser(user)}
                         disabled={!user.isLoggedIn}
-                        className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                          user.isLoggedIn
-                            ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
-                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        }`}
+                        className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                       >
                         Logout
                       </button>
-
                       {(userRole === 'Admin' || userRole === 'Owner') && (
                         <button
                           onClick={() => deleteUser(user)}
                           disabled={user.email === userEmail || user.isDeleted}
-                          className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                            user.isDeleted || user.email === userEmail
-                              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                              : 'bg-red-600 hover:bg-red-700 text-white shadow-sm'
-                          }`}
+                          className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm'}`}
                         >
                           Delete
                         </button>
                       )}
-
                       {userRole === 'Owner' && (
                         <button
                           onClick={() => {
