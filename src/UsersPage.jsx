@@ -111,7 +111,7 @@ export default function UsersPage() {
         setShowToast(true);
         setTimeout(() => {
           navigate('/');
-        }, 2000); // Redirect after 1 second
+        }, 2000);  
       } else if (err.response?.status === 401) {
         setToastMessage('Please login to continue');
         setShowToast(true);
