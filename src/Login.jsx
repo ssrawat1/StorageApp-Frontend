@@ -150,7 +150,7 @@ const Login = () => {
               }}
               onError={() => console.log('Google Login Failed')}
               type="standard"
-              theme="outline"
+              theme="filled_blue"
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
@@ -160,7 +160,7 @@ const Login = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-52 flex items-center py-2 justify-center gap-3 border border-gray-300 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className=" cursor-pointer w-52 flex items-center py-2 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>

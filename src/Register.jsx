@@ -154,7 +154,7 @@ const Register = () => {
                   type="button"
                   onClick={handleSendOtp}
                   disabled={isSending || countdown > 0 || otpVerified}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                  className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
                 >
                   {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
                 </button>
@@ -284,7 +284,7 @@ const Register = () => {
               }}
               onError={() => console.log('Google Login Failed')}
               type="standard"
-              theme="outline"
+              theme="filled_blue"
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
@@ -294,7 +294,7 @@ const Register = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-52 flex items-center py-2 justify-center gap-3 border border-gray-300 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className=" cursor-pointer w-52 flex items-center py-2 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
