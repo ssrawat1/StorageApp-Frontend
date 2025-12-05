@@ -290,7 +290,6 @@ const Register = () => {
               logo_alignment="left"
               width={384}
               auto_select={false}
-              useOneTap
             />
 
             {/* GitHub Login - Full Width */}

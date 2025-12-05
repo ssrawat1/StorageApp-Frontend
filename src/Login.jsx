@@ -156,8 +156,7 @@ const Login = () => {
               logo_alignment="left"
               width={384}
               auto_select={false}
-              useOneTap
-            />
+             />
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
