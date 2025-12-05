@@ -5,6 +5,7 @@ import Login from './Login';
 import UsersPage from './UsersPage';
 import GithubAuth from './components/GithubAuth';
 import SubscriptionPlans from './components/SubscriptionPlans';
+import ErrorPage from './ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path:"/Plans",
     element:<SubscriptionPlans/>
+  },
+  {
+    path: "*",
+    element: <ErrorPage />
   }
 ]);
 
