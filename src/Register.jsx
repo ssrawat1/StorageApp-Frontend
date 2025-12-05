@@ -287,9 +287,11 @@ const Register = () => {
               text="continue_with"
               shape="rectangular"
               size="large"
-              logo_alignment="left"
+              logo_alignment="center"
+              width="100%"
               auto_select={false}
-             />
+              useOneTap
+            />
 
             {/* GitHub Login - Full Width */}
             <button
