@@ -141,7 +141,7 @@ const Login = () => {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="space-y-3 flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center gap-3">
             {/* Google Login - Full Width */}
             <GoogleLogin
               onSuccess={async (cred) => {
@@ -154,14 +154,13 @@ const Login = () => {
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
-              width={384}
+              size="large"
               auto_select={false}
-              use_fedcm_for_prompt={false}
             />
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-sm flex items-center justify-center gap-3 border border-gray-300 py-[9px] rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-48 flex items-center py-2 justify-center gap-3 border border-gray-300 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
