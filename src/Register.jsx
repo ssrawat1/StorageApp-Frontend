@@ -140,6 +140,7 @@ const Register = () => {
                 <input
                   type="email"
                   name="email"
+                  autoComplete="new-email"
                   required
                   placeholder="Enter your email"
                   value={formData.email}
@@ -233,7 +234,8 @@ const Register = () => {
                 <input
                   name="password"
                   type="password"
-                  required
+                  autoComplete="current-password"
+                   required
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
@@ -288,7 +290,7 @@ const Register = () => {
               logo_alignment="left"
               auto_select={false}
               use_fedcm_for_prompt={false}
-              width="100%"
+              width="430"
             />
 
             {/* GitHub Login - Full Width */}

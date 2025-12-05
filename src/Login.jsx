@@ -91,6 +91,7 @@ const Login = () => {
                 <input
                   name="password"
                   type="password"
+                  autoComplete="current-password"
                   required
                   placeholder="Enter your password"
                   value={formData.password}
