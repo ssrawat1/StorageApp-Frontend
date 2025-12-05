@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
-const Breadcrumbs = ({ directoriesList }) => {
-  console.log({directoriesList})
-  if (!directoriesList?.length) return;
-  const { breadcrumb } = directoriesList[0];
+const Breadcrumbs = ({ breadcrumbPath }) => {
+  console.log({ breadcrumbPath });
+  if (!breadcrumbPath?.length) return;
+  const { breadcrumb } = breadcrumbPath[0];
 
   return (
     <div className="px-4 pb-4">

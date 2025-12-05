@@ -34,6 +34,7 @@ function DirectoryView() {
   const [renameType, setRenameType] = useState(null);
   const [renameId, setRenameId] = useState(null);
   const [renameValue, setRenameValue] = useState('');
+  const [breadcrumbPath, setBreadcrumbPath] = useState([])
 
   const fileInputRef = useRef(null);
 
@@ -54,9 +55,11 @@ function DirectoryView() {
   const loadDirectory = async () => {
     try {
       const data = await getDirectoryItems(dirId);
+      console.log({directoryPathData:data})
       setDirectoryName(dirId ? data.name : 'My Drive');
       setDirectoriesList([...data.directories].reverse());
       setFilesList([...data.files].reverse());
+      setBreadcrumbPath(data.breadcrumbPath)
     } catch (err) {
       if (err.response?.status === 401) navigate('/login');
       else setErrorMessage(err.response?.data?.error || err.message);
@@ -323,7 +326,7 @@ function DirectoryView() {
         />
 
         <div className="mx-2 md:mx-4 pb-8">
-          <Breadcrumbs directoriesList={directoriesList} />
+          <Breadcrumbs breadcrumbPath={breadcrumbPath} />
 
           {showCreateDirModal && (
             <CreateDirectoryModal
