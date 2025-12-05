@@ -225,17 +225,17 @@ function DirectoryHeader({
 
                       <div className="py-2">
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-700 font-medium  bg-red-100 hover:bg-red-100 transition-colors duration-150"
                           onClick={handleLogout}
                         >
-                          <FaSignOutAlt className="text-blue-600" />
+                          <FaSignOutAlt className="text-red-600" />
                           <span>Logout</span>
                         </button>
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-700 font-medium  bg-red-100 hover:bg-red-100 transition-colors duration-150"
                           onClick={handleLogoutAll}
                         >
-                          <FaSignOutAlt className="text-blue-600" />
+                          <FaSignOutAlt className="text-red-600" />
                           <span>Logout All Sessions</span>
                         </button>
                       </div>
@@ -371,23 +371,23 @@ function DirectoryHeader({
                   </Link>
 
                   <button
-                    className="w-full bg-red-100 text-red-600 font-medium flex items-center justify-center gap-2 px-4 py-2.5 text-sm hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleLogout();
                     }}
                   >
-                    <FaSignOutAlt className='text-red-600' />
+                    <FaSignOutAlt />
                     <span>Logout</span>
                   </button>
                   <button
-                    className="w-full bg-red-100 text-red-600 font-medium flex items-center justify-center gap-2 px-4 py-2.5 mt-2 text-sm hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 mt-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleLogoutAll();
                     }}
                   >
-                    <FaSignOutAlt className='text-red-600' />
+                    <FaSignOutAlt />
                     <span>Logout All Sessions</span>
                   </button>
                 </div>
