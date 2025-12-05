@@ -159,7 +159,6 @@ const Login = () => {
               useOneTap
               style={{ width: '208px', height: '48px' }} // fixed width & height
             />
-
             {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
