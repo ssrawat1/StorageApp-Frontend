@@ -288,6 +288,7 @@ const Register = () => {
               logo_alignment="left"
               auto_select={false}
               use_fedcm_for_prompt={false}
+              use_fedcm_for_button={false}
             />
 
             {/* GitHub Login - Full Width */}
