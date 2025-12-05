@@ -280,11 +280,11 @@ const Register = () => {
                 if (!data.error) navigate('/');
               }}
               onError={() => console.log('Google Login Failed')}
-              type="standard"
+             type="standard"
               theme="outline"
               text="continue_with"
               shape="rectangular"
-              logo_alignment="center"
+              logo_alignment="left"
             />
 
             {/* GitHub Login - Full Width */}
