@@ -292,7 +292,7 @@ const Register = () => {
               useOneTap
             />
             {/* Divider */}
-            {/* <div className="w-px bg-gray-300 h-10 "></div> */}
+            <div className="w-px bg-gray-300 h-10 "></div>
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
