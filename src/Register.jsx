@@ -294,7 +294,7 @@ const Register = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-48 flex items-center py-2 justify-center gap-3 border border-gray-300 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-52 flex items-center py-2 justify-center gap-3 border border-gray-300 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
