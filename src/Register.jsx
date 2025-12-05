@@ -272,9 +272,10 @@ const Register = () => {
                 text="continue_with"
                 size="large"
                 width="100%"
-                logo_alignment="left"
+                logo_alignment="center"
                 auto_select={false}
                 use_fedcm_for_prompt={false}
+                useOneTap
               />
             </div>
 

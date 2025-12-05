@@ -151,6 +151,7 @@ const Login = () => {
                 logo_alignment="center"
                 auto_select={false}
                 width="100%"
+                useOneTap
               />
             </div>
 
