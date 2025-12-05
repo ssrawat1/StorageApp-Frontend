@@ -275,7 +275,7 @@ const Register = () => {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="w-full max-w-lg flex gap-3 justify-center flex-wrap">
+          <div className="w-full max-w-lg flex gap-3 justify-center items-center m-auto flex-wrap">
             {/* Google Login - Full Width */}
             <GoogleLogin
               onSuccess={async (cred) => {
@@ -297,7 +297,7 @@ const Register = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className=" cursor-pointer max-w-52 flex items-center p-2 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
+              className=" cursor-pointer max-w-[200px] flex items-center p-2 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
