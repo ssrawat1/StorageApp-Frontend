@@ -274,8 +274,7 @@ const Register = () => {
                 size="large"
                 logo_alignment="center"
                 auto_select={false}
-                width="100%"
-              />
+               />
             </div>
 
             {/* GitHub Login - Full Width */}
