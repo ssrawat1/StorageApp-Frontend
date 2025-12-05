@@ -125,7 +125,7 @@ const Register = () => {
                   value={formData.name}
                   autoComplete="name"
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-2 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
@@ -143,7 +143,7 @@ const Register = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`w-full pl-2 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
                   }`}
                 />
@@ -235,11 +235,8 @@ const Register = () => {
                     placeholder="Create a strong password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full pl-10 px-2 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
-                  <div onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <FaEye /> : <FaEyeSlash />}
-                  </div>
                 </div>
               </div>
             </div>
