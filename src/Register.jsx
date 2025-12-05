@@ -23,6 +23,7 @@ const Register = () => {
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -115,7 +116,7 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none"></div>
                 <input
                   type="text"
                   name="name"
@@ -133,7 +134,7 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none"></div>
                 <input
                   type="email"
                   name="email"
@@ -225,10 +226,10 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none"></div>
                 <input
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   required
                   placeholder="Create a strong password"
@@ -236,6 +237,9 @@ const Register = () => {
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
+                <div onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </div>
               </div>
             </div>
 

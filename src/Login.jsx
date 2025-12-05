@@ -64,7 +64,7 @@ const Login = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none"></div>
                 <input
                   name="email"
                   type="email"
@@ -84,7 +84,7 @@ const Login = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none"></div>
                 <input
                   name="password"
                   type="password"
