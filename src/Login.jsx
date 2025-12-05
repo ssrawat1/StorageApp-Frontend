@@ -156,7 +156,8 @@ const Login = () => {
               logo_alignment="left"
               width={384}
               auto_select={false}
-             />
+              use_fedcm_for_prompt={false}
+            />
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
