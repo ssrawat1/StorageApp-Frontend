@@ -327,7 +327,6 @@ function DirectoryView() {
 
         <div className="mx-2 md:mx-4 pb-8">
           <Breadcrumbs breadcrumbPath={breadcrumbPath} />
-          <hr />
 
           {showCreateDirModal && (
             <CreateDirectoryModal
