@@ -249,10 +249,10 @@ function DirectoryHeader({
                         </button>
                       </div>
 
-                      <div className="px-4 pb-4">
+                      <div className="p-2">
                         <Link
                           to="/plans"
-                          className="block text-center px-2 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           onClick={() => setShowUserMenu(false)}
                         >
                           Get more storage
@@ -368,16 +368,15 @@ function DirectoryHeader({
                     </div>
                   </div>
 
-                  <Link
-                    to="/plans"
-                    className="block text-center px-2 py-2.5 mb-3 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-all duration-200"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowMobileMenu(false);
-                    }}
-                  >
-                    Get more storage
-                  </Link>
+                  <div className="p-2">
+                    <Link
+                      to="/plans"
+                      className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      Get more storage
+                    </Link>
+                  </div>
 
                   <div className="py-2 px-2 space-y-2">
                     {/* Logout */}
