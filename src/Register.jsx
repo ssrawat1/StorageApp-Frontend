@@ -283,8 +283,9 @@ const Register = () => {
               theme="outline"
               text="continue_with"
               shape="rectangular"
-              logo_alignment="center"
-              width="384"
+              logo_alignment="left"
+              width="430"
+              useOneTap
             />
 
             {/* GitHub Login - Full Width */}
