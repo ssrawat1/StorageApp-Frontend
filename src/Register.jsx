@@ -274,7 +274,7 @@ const Register = () => {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="space-y-3">
+          <div className="space-y-3 flex flex-wrap justify-center">
             {/* Custom Google Button - Full Width, No Auto-fill */}
             <GoogleLogin
               onSuccess={async (cred) => {
@@ -288,7 +288,7 @@ const Register = () => {
               shape="rectangular"
               size="large"
               logo_alignment="center"
-              width={400}
+              width={384}
               auto_select={false}
               useOneTap
             />
@@ -296,7 +296,7 @@ const Register = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-sm flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>

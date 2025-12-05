@@ -140,30 +140,28 @@ const Login = () => {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="space-y-3">
+          <div className="space-y-3 flex flex-wrap justify-center">
             {/* Google Login - Full Width */}
-            <div className="w-full">
-              <GoogleLogin
-                onSuccess={async (cred) => {
-                  const data = await loginWithGoogle(cred.credential);
-                  if (!data.error) navigate('/');
-                }}
-                onError={() => console.log('Google Login Failed')}
-                type="standard"
-                theme="outline"
-                text="continue_with"
-                shape="rectangular"
-                size="large"
-                logo_alignment="center"
-                auto_select={false}
-                useOneTap
-              />
-            </div>
-
+            <GoogleLogin
+              onSuccess={async (cred) => {
+                const data = await loginWithGoogle(cred.credential);
+                if (!data.error) navigate('/');
+              }}
+              onError={() => console.log('Google Login Failed')}
+              type="standard"
+              theme="outline"
+              text="continue_with"
+              shape="rectangular"
+              size="large"
+              logo_alignment="center"
+              width={384}
+              auto_select={false}
+              useOneTap
+            />
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-sm flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
