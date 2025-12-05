@@ -276,23 +276,21 @@ const Register = () => {
           {/* Social Login Buttons */}
           <div className="space-y-3">
             {/* Custom Google Button - Full Width, No Auto-fill */}
-            <div className="w-full [&>div]:w-full [&>iframe]:w-full">
-              <GoogleLogin
-                onSuccess={async (cred) => {
-                  const data = await loginWithGoogle(cred.credential);
-                  if (!data.error) navigate('/');
-                }}
-                onError={() => console.log('Google Login Failed')}
-                type="standard"
-                theme="outline"
-                text="continue_with"
-                shape="rectangular"
-                size="large"
-                logo_alignment="left"
-                auto_select={false}
-                use_fedcm_for_prompt={false}
-              />
-            </div>
+            <GoogleLogin
+              onSuccess={async (cred) => {
+                const data = await loginWithGoogle(cred.credential);
+                if (!data.error) navigate('/');
+              }}
+              onError={() => console.log('Google Login Failed')}
+              type="standard"
+              theme="outline"
+              text="continue_with"
+              shape="rectangular"
+              size="large"
+              logo_alignment="left"
+              auto_select={false}
+              useOneTap
+            />
 
             {/* GitHub Login - Full Width */}
             <button
