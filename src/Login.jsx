@@ -70,6 +70,7 @@ const Login = () => {
                 <input
                   name="email"
                   type="email"
+                  autoComplete="email"
                   required
                   placeholder="Enter your email"
                   value={formData.email}
@@ -91,7 +92,7 @@ const Login = () => {
                 <input
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="password"
                   required
                   placeholder="Enter your password"
                   value={formData.password}
@@ -155,11 +156,12 @@ const Login = () => {
               logo_alignment="center"
               auto_select={false}
               width={384}
+              useOneTap
             />
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-sm flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-sm flex items-center justify-center gap-3 border border-gray-300 py-[9px] rounded-sm hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
