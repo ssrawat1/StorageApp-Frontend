@@ -290,10 +290,10 @@ const Register = () => {
               logo_alignment="center"
               width={200}
               auto_select={false}
-              useOneTap
+              useOneTap={true}
             />
             {/* Divider */}
-            <div className="w-px bg-gray-300 h-10 "></div>
+            {/* <div className="w-px bg-gray-300 h-10 sm:h-0 sm:w-0 "></div> */}
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
