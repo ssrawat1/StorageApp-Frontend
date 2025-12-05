@@ -124,6 +124,7 @@ const Register = () => {
                   required
                   placeholder="Enter your full name"
                   value={formData.name}
+                  autoComplete="name"
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
@@ -140,7 +141,7 @@ const Register = () => {
                 <input
                   type="email"
                   name="email"
-                  autoComplete="new-email"
+                  autoComplete="email"
                   required
                   placeholder="Enter your email"
                   value={formData.email}
@@ -234,7 +235,7 @@ const Register = () => {
                 <input
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="password"
                   required
                   placeholder="Create a strong password"
                   value={formData.password}
@@ -294,7 +295,7 @@ const Register = () => {
               logo_alignment="center"
               width={384}
               auto_select={false}
-              use_fedcm_for_prompt={false}
+              useOneTap
             />
 
             {/* GitHub Login - Full Width */}

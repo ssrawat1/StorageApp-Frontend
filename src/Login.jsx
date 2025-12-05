@@ -152,9 +152,8 @@ const Login = () => {
               theme="outline"
               text="continue_with"
               shape="rectangular"
-               logo_alignment="center"
+              logo_alignment="center"
               auto_select={false}
-              use_fedcm_for_prompt={false}
               width={384}
             />
             {/* GitHub Login - Full Width */}
