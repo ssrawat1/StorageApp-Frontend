@@ -223,19 +223,28 @@ function DirectoryHeader({
                         </div>
                       </div>
 
-                      <div className="py-2">
+                      <div className="py-2 space-y-2">
+                        {/* Logout */}
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-700 font-medium  bg-red-100 hover:bg-red-100 transition-colors duration-150"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 
+               text-sm font-medium text-red-600 
+               bg-red-50 hover:bg-red-100 
+               rounded-lg transition-all"
                           onClick={handleLogout}
                         >
                           <FaSignOutAlt className="text-red-600" />
                           <span>Logout</span>
                         </button>
+
+                        {/* Logout All */}
                         <button
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-700 font-medium  bg-red-100 hover:bg-red-100 transition-colors duration-150"
+                          className="w-full flex items-center gap-3 px-4 py-2.5 
+               text-sm font-medium text-red-700 
+               bg-red-50 hover:bg-red-100 
+               rounded-lg transition-all"
                           onClick={handleLogoutAll}
                         >
-                          <FaSignOutAlt className="text-red-600" />
+                          <FaSignOutAlt className="text-red-700" />
                           <span>Logout All Sessions</span>
                         </button>
                       </div>
