@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub, FaEnvelope, FaLock, FaUser, FaCheckCircle, FaGoogle } from 'react-icons/fa';
+import { FaGithub, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -115,9 +115,7 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaUser className="text-gray-400" />
-                </div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                 <input
                   type="text"
                   name="name"
@@ -135,9 +133,7 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaEnvelope className="text-gray-400" />
-                </div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                 <input
                   type="email"
                   name="email"
@@ -229,9 +225,7 @@ const Register = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaLock className="text-gray-400" />
-                </div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                 <input
                   name="password"
                   type="password"
