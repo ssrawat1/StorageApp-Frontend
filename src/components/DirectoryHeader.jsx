@@ -54,13 +54,13 @@ function DirectoryHeader({
   }, []);
 
   const handleUserIconClick = async () => {
-    try {
-      const data = await fetchUser();
-      setStorageUsed(data.storageUsed);
-      setStorageLimit(data.storageLimit);
-    } catch (err) {
-      console.error('Error fetching user data:', err);
-    }
+    // try {
+    //   const data = await fetchUser();
+    //   setStorageUsed(data.storageUsed);
+    //   setStorageLimit(data.storageLimit);
+    // } catch (err) {
+    //   console.error('Error fetching user data:', err);
+    // }
     setShowUserMenu((prev) => !prev);
   };
 
