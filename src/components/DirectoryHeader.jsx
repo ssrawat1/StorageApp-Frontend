@@ -223,7 +223,7 @@ function DirectoryHeader({
                         </div>
                       </div>
 
-                      <div className="py-2 space-y-2">
+                      <div className="py-2 px-2 space-y-2">
                         {/* Logout */}
                         <button
                           className="w-full flex items-center gap-3 px-4 py-2.5 
