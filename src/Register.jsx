@@ -160,7 +160,7 @@ const Register = () => {
                 </button>
               </div>
               {serverError && (
-                <p className="text-red-600 mt-2 text-xs flex items-center gap-1">
+                <p className="text-red-600 mt-2 text-sm flex items-center gap-1">
                   <span className="font-semibold">⚠</span> {serverError}
                 </p>
               )}
@@ -201,7 +201,7 @@ const Register = () => {
                   </button>
                 </div>
                 {otpError && (
-                  <p className="text-red-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
+                  <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                     <span className="font-semibold">⚠</span> {otpError}
                   </p>
                 )}
