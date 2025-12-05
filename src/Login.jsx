@@ -101,9 +101,12 @@ const Login = () => {
                 />
               </div>
               {serverError && (
-                <p className="text-red-600 text-xs sm:text-sm mt-2 flex items-center gap-1">
-                  <span className="font-semibold">⚠</span> {serverError}
-                </p>
+                <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <p className="text-red-700 text-sm flex items-start gap-2">
+                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span className="leading-relaxed">{serverError}</span>
+                  </p>
+                </div>
               )}
             </div>
 

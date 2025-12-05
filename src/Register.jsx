@@ -206,7 +206,7 @@ const Register = () => {
 
                 {/* OTP Error Message - Separate Alert Box */}
                 {otpError && (
-                  <div className="mt-2 p-3 bg-red-50 border-2">
+                  <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
                     <p className="text-red-700 text-sm flex items-start gap-2">
                       <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
                       <span className="leading-relaxed">{otpError}</span>
@@ -288,7 +288,6 @@ const Register = () => {
               logo_alignment="left"
               auto_select={false}
               use_fedcm_for_prompt={false}
-              use_fedcm_for_button={false}
             />
 
             {/* GitHub Login - Full Width */}
