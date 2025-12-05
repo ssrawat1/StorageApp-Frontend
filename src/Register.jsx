@@ -206,7 +206,7 @@ const Register = () => {
 
                 {/* OTP Error Message - Separate Alert Box */}
                 {otpError && (
-                  <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <div className="mt-2 p-3 bg-red-50">
                     <p className="text-red-700 text-sm flex items-start gap-2">
                       <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
                       <span className="leading-relaxed">{otpError}</span>
