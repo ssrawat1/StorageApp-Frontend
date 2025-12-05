@@ -101,11 +101,13 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 border border-gray-200">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              Create Account
+            </h2>
             <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
           </div>
 
@@ -234,7 +236,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={!otpVerified || isSuccess}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-blue-400 disabled:to-blue-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg transform"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:transform-none"
             >
               {isSuccess ? '✓ Registration Successful!' : 'Create Account'}
             </button>
@@ -243,10 +245,7 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center mt-5 text-sm text-gray-700">
             Already have an account?{' '}
-            <Link
-              className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
-              to="/login"
-            >
+            <Link className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors" to="/login">
               Sign In
             </Link>
           </p>
@@ -272,15 +271,17 @@ const Register = () => {
                 theme="outline"
                 text="continue_with"
                 size="large"
-                logo_alignment="center"
+                width="100%"
+                logo_alignment="left"
                 auto_select={false}
-               />
+                use_fedcm_for_prompt={false}
+              />
             </div>
 
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2.5 rounded-lg hover:bg-blue-50 hover:border-gray-300 transition-all duration-200 font-medium text-gray-700 text-sm "
+              className="w-full flex items-center justify-center gap-3 border-2 border-gray-300 py-3 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium text-gray-700 shadow-sm hover:shadow"
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
@@ -290,13 +291,8 @@ const Register = () => {
           {/* Footer Note */}
           <p className="text-center text-xs text-gray-500 mt-6">
             By creating an account, you agree to our{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Terms
-            </a>{' '}
-            and{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Privacy Policy
-            </a>
+            <a href="#" className="text-blue-600 hover:underline">Terms</a> and{' '}
+            <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
           </p>
         </div>
       </div>
