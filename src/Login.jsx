@@ -141,8 +141,9 @@ const Login = () => {
           </div>
 
           {/* Social Login Buttons */}
+          {/* Social Login Buttons */}
           <div className="flex flex-wrap justify-center gap-3">
-            {/* Google Login - Full Width */}
+            {/* Google Login */}
             <GoogleLogin
               onSuccess={async (cred) => {
                 const data = await loginWithGoogle(cred.credential);
@@ -156,11 +157,13 @@ const Login = () => {
               logo_alignment="center"
               auto_select={false}
               useOneTap
+              style={{ width: '208px', height: '48px' }} // fixed width & height
             />
-            {/* GitHub Login - Full Width */}
+
+            {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
-              className=" cursor-pointer w-52 flex items-center py-2 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
+              className="w-52 h-12 flex items-center justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm"
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
