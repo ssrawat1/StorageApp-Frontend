@@ -142,24 +142,20 @@ const Login = () => {
           {/* Social Login Buttons */}
           <div className="space-y-3">
             {/* Google Login - Full Width */}
-            <div
-              id="google-container"
-              style={{ width: '100%' }} // THIS is what makes production stable
-              className="w-full [&>div]:w-full [&>iframe]:w-full"
-            >
+            <div className="w-full">
               <GoogleLogin
                 onSuccess={async (cred) => {
                   const data = await loginWithGoogle(cred.credential);
                   if (!data.error) navigate('/');
                 }}
                 onError={() => console.log('Google Login Failed')}
+                type="standard"
                 theme="outline"
-                shape="rectangular"
                 text="continue_with"
+                shape="rectangular"
                 size="large"
-                logo_alignment="left"
+                logo_alignment="center"
                 auto_select={false}
-                use_fedcm_for_prompt={false}
               />
             </div>
 

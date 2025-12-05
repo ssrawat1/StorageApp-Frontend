@@ -248,7 +248,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={!otpVerified || isSuccess}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:transform-none"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg disabled:transform-none"
             >
               {isSuccess ? '✓ Registration Successful!' : 'Create Account'}
             </button>
@@ -289,8 +289,7 @@ const Register = () => {
               size="large"
               logo_alignment="left"
               auto_select={false}
-              useOneTap
-            />
+             />
 
             {/* GitHub Login - Full Width */}
             <button
