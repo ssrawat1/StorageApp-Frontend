@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 const Breadcrumbs = ({ breadcrumbPath }) => {
   console.log({ breadcrumbPathInComponent: breadcrumbPath });
   if (!breadcrumbPath?.length) return;
-  const { breadcrumb } = breadcrumbPath[0];
+  const breadcrumb = breadcrumbPath;
 
   return (
     <div className="px-4 pb-4">
