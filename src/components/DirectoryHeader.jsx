@@ -279,7 +279,7 @@ function DirectoryHeader({
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
             <button
-              className="flex items-center justify-center w-10 h-10 text-red-600 bg-red-100  hover:bg-red-100 rounded-full transition-all duration-200"
+              className="flex items-center justify-center w-10 h-10 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowMobileMenu(!showMobileMenu);
@@ -379,26 +379,31 @@ function DirectoryHeader({
                     Get more storage
                   </Link>
 
-                  <button
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLogout();
-                    }}
-                  >
-                    <FaSignOutAlt />
-                    <span>Logout</span>
-                  </button>
-                  <button
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 mt-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLogoutAll();
-                    }}
-                  >
-                    <FaSignOutAlt />
-                    <span>Logout All Sessions</span>
-                  </button>
+                  <div className="py-2 px-2 space-y-2">
+                    {/* Logout */}
+                    <button
+                      className="w-full flex items-center gap-3 px-4 py-2.5 
+               text-sm font-medium text-red-600 
+               bg-red-50 hover:bg-red-100 
+               rounded-lg transition-all"
+                      onClick={handleLogout}
+                    >
+                      <FaSignOutAlt className="text-red-600" />
+                      <span>Logout</span>
+                    </button>
+
+                    {/* Logout All */}
+                    <button
+                      className="w-full flex items-center gap-3 px-4 py-2.5 
+               text-sm font-medium text-red-700 
+               bg-red-50 hover:bg-red-100 
+               rounded-lg transition-all"
+                      onClick={handleLogoutAll}
+                    >
+                      <FaSignOutAlt className="text-red-700" />
+                      <span>Logout All Sessions</span>
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (
