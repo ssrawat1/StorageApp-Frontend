@@ -284,8 +284,9 @@ const Register = () => {
               theme="outline"
               text="continue_with"
               shape="rectangular"
+              auto_select={false}
+              size='large'
               logo_alignment="left"
-              ux_mode="popup"
             />
 
             {/* GitHub Login - Full Width */}
