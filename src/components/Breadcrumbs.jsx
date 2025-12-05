@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 const Breadcrumbs = ({ directoriesList }) => {
+  console.log({directoriesList})
   if (!directoriesList?.length) return;
   const { breadcrumb } = directoriesList[0];
 
