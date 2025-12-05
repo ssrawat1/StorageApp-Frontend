@@ -241,7 +241,7 @@ export default function UsersPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {filteredUsers.length === 0 ? (
             <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center bg-white rounded-lg shadow-md p-8 max-w-md">
+              <div className="text-center p-8 max-w-md">
                 <svg
                   className="w-16 h-16 mx-auto text-gray-400 mb-4"
                   fill="none"
@@ -251,18 +251,18 @@ export default function UsersPage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1}
                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
                   />
                 </svg>
-                <p className="text-xl font-semibold text-gray-800 mb-2">
+                <p className="text-xl text-gray-400 mb-2">
                   {userRole !== 'Owner' ? 'No Active Users' : 'No Deleted Users'}
                 </p>
-                <p className="text-gray-600">
+                <em className="text-gray-400">
                   {userRole !== 'Owner'
                     ? 'No users are currently logged in'
                     : 'No users have been deleted'}
-                </p>
+                </em>
               </div>
             </div>
           ) : (
