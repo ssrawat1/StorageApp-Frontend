@@ -154,8 +154,8 @@ const Login = () => {
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
-              size="large"
               auto_select={false}
+              useOneTap
             />
             {/* GitHub Login - Full Width */}
             <button
