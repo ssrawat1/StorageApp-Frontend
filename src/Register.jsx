@@ -284,9 +284,10 @@ const Register = () => {
               theme="outline"
               text="continue_with"
               shape="rectangular"
-              auto_select={false}
-              size='large'
+              size="large"
               logo_alignment="left"
+              auto_select={false}
+              use_fedcm_for_prompt={false}
             />
 
             {/* GitHub Login - Full Width */}
