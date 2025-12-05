@@ -5,8 +5,8 @@ import Login from './Login';
 import UsersPage from './UsersPage';
 import GithubAuth from './components/GithubAuth';
 import SubscriptionPlans from './components/SubscriptionPlans';
-import ErrorPage from './ErrorPage';
-
+import NotFound from './NotFound';
+  
 const router = createBrowserRouter([
   {
     path: '/',
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <ErrorPage />
+    element: <NotFound />
   }
 ]);
 
