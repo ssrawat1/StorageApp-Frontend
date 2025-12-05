@@ -154,9 +154,9 @@ const Login = () => {
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
-              auto_select={false}
               width={384}
-              useOneTap
+              auto_select={false}
+              use_fedcm_for_prompt={false}
             />
             {/* GitHub Login - Full Width */}
             <button
