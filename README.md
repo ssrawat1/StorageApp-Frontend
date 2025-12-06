@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Safemystuff Banner](./dist/drive.jpg)
+![Safemystuff Banner](./public/drive.jpg)
 
 **A production-ready cloud storage platform built for speed, security, and reliability**
 
@@ -482,19 +482,14 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👨‍💻 Author
 
 **Sanjay Singh Rawat**
 
 - Email: ssr911999@gmail.com
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- GitHub: [@ssrawat1](https://github.com/ssrawat1)
+- LinkedIn: [Sanjay Singh Rawat
+](https://www.linkedin.com/in/sanjay-singh-rawat-a39b11302/)
 
 ---
 
@@ -508,13 +503,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 ## 📈 Project Stats
-
-![GitHub stars](https://img.shields.io/github/stars/yourusername/safemystuff?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/safemystuff?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/safemystuff)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/safemystuff)
-
----
 
 <div align="center">
 
