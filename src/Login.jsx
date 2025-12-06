@@ -161,10 +161,9 @@ const Login = () => {
             <button
               onClick={handleGithubLogin}
               className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
-              style={{ width: '200px' }}
             >
               <FaGithub className="text-xl text-black" />
-              <span className='text-gray-800'>Continue with GitHub</span>
+              <span className="text-gray-800">Continue with GitHub</span>
             </button>
           </div>
 
