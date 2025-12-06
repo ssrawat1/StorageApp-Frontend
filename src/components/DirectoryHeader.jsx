@@ -9,6 +9,7 @@ import {
   FaSignInAlt,
   FaBars,
   FaTimes,
+  FaPlus,
 } from 'react-icons/fa';
 import { formatSize } from './DetailsPopup';
 
@@ -22,7 +23,7 @@ function DirectoryHeader({
   filesList,
 }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(true);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userName, setUserName] = useState('Guest User');
   const [userEmail, setUserEmail] = useState('guest@example.com');
@@ -55,13 +56,6 @@ function DirectoryHeader({
   }, [filesList]);
 
   const handleUserIconClick = async () => {
-    // try {
-    //   const data = await fetchUser();
-    //   setStorageUsed(data.storageUsed);
-    //   setStorageLimit(data.storageLimit);
-    // } catch (err) {
-    //   console.error('Error fetching user data:', err);
-    // }
     setShowUserMenu((prev) => !prev);
   };
 
@@ -111,46 +105,44 @@ function DirectoryHeader({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-300 mb-5">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-300">
       <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <div
-            className="flex items-center gap-2 flex-shrink-0"
-            onClick={(e) => {
-              navigate('/');
-            }}
+            className="flex items-center gap-2 flex-shrink-0 cursor-pointer"
+            onClick={() => navigate('/')}
           >
             <img
               src="/drive.jpg"
               className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-full p-1 bg-gradient-to-br from-blue-500 to-blue-600 shadow-md"
               alt="app-logo"
             />
-            <span className="text-base sm:text-lg font-bold text-gray-800 whitespace-nowrap">
+            <span className="hidden sm:block text-base sm:text-lg font-bold text-gray-800 whitespace-nowrap">
               Safemystuff
             </span>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Desktop Actions - With Labels */}
+          <div className="hidden md:flex items-center gap-3">
+            {/* Create Folder Button */}
             <button
-              className="cursor-pointer bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-              title="Create Folder"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed font-medium text-sm"
               onClick={onCreateFolderClick}
               disabled={disabled}
-              aria-label="Create Folder"
             >
-              <FaFolderPlus className="text-xl" />
+              <FaFolderPlus className="text-base" />
+              <span>New Folder</span>
             </button>
 
+            {/* Upload Files Button */}
             <button
-              className=" bg-blue-100 cursor-pointer flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-              title="Upload Files"
+              className="flex items-center gap-2 px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 shadow-sm hover:shadow-md disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed font-medium text-sm"
               onClick={onUploadFilesClick}
               disabled={disabled}
-              aria-label="Upload Files"
             >
-              <FaUpload className="text-xl" />
+              <FaUpload className="text-base" />
+              <span>Upload</span>
             </button>
 
             <input
@@ -163,22 +155,21 @@ function DirectoryHeader({
             />
 
             {/* User Menu */}
-            <div className="relative" ref={userMenuRef}>
+            <div className="relative ml-2" ref={userMenuRef}>
               <button
-                className="cursor-pointer bg-blue-100 flex items-center justify-center w-10 h-10 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                title="User Menu"
+                className="flex items-center justify-center w-10 h-10 text-gray-700 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 onClick={handleUserIconClick}
                 aria-label="User Menu"
                 aria-expanded={showUserMenu}
               >
                 {userPicture ? (
                   <img
-                    className="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
+                    className="w-9 h-9 rounded-full object-cover border-2 border-gray-300"
                     src={userPicture}
                     alt={userName}
                   />
                 ) : (
-                  <FaUser className="text-xl" />
+                  <FaUser className="text-lg" />
                 )}
               </button>
 
@@ -224,40 +215,30 @@ function DirectoryHeader({
                         </div>
                       </div>
 
-                      <div className="py-2 px-2 space-y-2">
-                        {/* Logout */}
-                        <button
-                          className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
-               text-sm font-medium text-red-600 
-               bg-red-50 hover:bg-red-100 
-               rounded-lg transition-all"
-                          onClick={handleLogout}
-                        >
-                          <FaSignOutAlt className="text-red-600" />
-                          <span>Logout</span>
-                        </button>
-
-                        {/* Logout All */}
-                        <button
-                          className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
-               text-sm font-medium text-red-600 
-               bg-red-50 hover:bg-red-100 
-               rounded-lg transition-all"
-                          onClick={handleLogoutAll}
-                        >
-                          <FaSignOutAlt className="text-red-600" />
-                          <span>Logout All Sessions</span>
-                        </button>
-                      </div>
-
-                      <div className="p-2">
+                      <div className="p-2 space-y-1">
                         <Link
                           to="/plans"
-                          className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200"
                           onClick={() => setShowUserMenu(false)}
                         >
                           Get more storage
                         </Link>
+
+                        <button
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all"
+                          onClick={handleLogout}
+                        >
+                          <FaSignOutAlt />
+                          <span>Logout</span>
+                        </button>
+
+                        <button
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all"
+                          onClick={handleLogoutAll}
+                        >
+                          <FaSignOutAlt />
+                          <span>Logout All Sessions</span>
+                        </button>
                       </div>
                     </>
                   ) : (
@@ -300,11 +281,11 @@ function DirectoryHeader({
           className="md:hidden border-t border-gray-200 bg-white shadow-lg animate-slideDown"
           ref={mobileMenuRef}
         >
-          <div className="px-4 py-3 space-y-3">
-            {/* Mobile Actions */}
-            <div className="flex gap-3">
+          <div className="px-4 py-4 space-y-3">
+            {/* Primary Actions - Prominent */}
+            <div className="space-y-2">
               <button
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3.5 text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all duration-200 shadow-md disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.stopPropagation();
                   onCreateFolderClick();
@@ -312,11 +293,12 @@ function DirectoryHeader({
                 }}
                 disabled={disabled}
               >
-                <FaFolderPlus />
-                <span>New Folder</span>
+                <FaFolderPlus className="text-lg" />
+                <span>Create New Folder</span>
               </button>
+
               <button
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3.5 text-base font-semibold text-blue-600 bg-white border-2 border-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 shadow-sm disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed"
                 onClick={(e) => {
                   e.stopPropagation();
                   onUploadFilesClick();
@@ -324,16 +306,16 @@ function DirectoryHeader({
                 }}
                 disabled={disabled}
               >
-                <FaUpload />
-                <span>Upload</span>
+                <FaUpload className="text-lg" />
+                <span>Upload Files</span>
               </button>
             </div>
 
-            {/* User Info */}
+            {/* User Info Section */}
             {loggedIn ? (
               <>
                 <div className="pt-3 border-t border-gray-200">
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3 mb-3 p-3 bg-gray-50 rounded-lg">
                     {userPicture ? (
                       <img
                         className="w-12 h-12 rounded-full object-cover border-2 border-gray-300"
@@ -351,7 +333,7 @@ function DirectoryHeader({
                     </div>
                   </div>
 
-                  <div className="space-y-2 mb-3">
+                  <div className="space-y-2 mb-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className="bg-blue-600 h-full rounded-full transition-all duration-300"
@@ -369,38 +351,28 @@ function DirectoryHeader({
                     </div>
                   </div>
 
-                  <div className="p-2">
+                  <div className="space-y-2">
                     <Link
                       to="/plans"
-                      className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                      onClick={() => setShowUserMenu(false)}
+                      className="block text-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-all duration-200"
+                      onClick={() => setShowMobileMenu(false)}
                     >
                       Get more storage
                     </Link>
-                  </div>
 
-                  <div className="py-2 px-2 space-y-2">
-                    {/* Logout */}
                     <button
-                      className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
-               text-sm font-medium text-red-600 
-               bg-red-50 hover:bg-red-100 
-               rounded-lg transition-all"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all"
                       onClick={handleLogout}
                     >
-                      <FaSignOutAlt className="text-red-600" />
+                      <FaSignOutAlt />
                       <span>Logout</span>
                     </button>
 
-                    {/* Logout All */}
                     <button
-                      className="w-full cursor-pointer flex items-center gap-3 px-4 py-2.5 
-               text-sm font-medium text-red-600 
-               bg-red-50 hover:bg-red-100 
-               rounded-lg transition-all"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all"
                       onClick={handleLogoutAll}
                     >
-                      <FaSignOutAlt className="text-red-600" />
+                      <FaSignOutAlt />
                       <span>Logout All Sessions</span>
                     </button>
                   </div>
