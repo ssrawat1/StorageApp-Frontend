@@ -55,7 +55,7 @@
 - File preview and download capabilities
 - Real-time storage usage monitoring
 
-![File Management](./docs/images/file-management.png)
+![File Management](./public/file-info.png)
 
 ### 👥 Advanced Role-Based Access Control (RBAC)
 
