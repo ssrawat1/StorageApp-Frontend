@@ -137,7 +137,7 @@ const Login = () => {
           {/* Social Login Buttons with Responsive Divider */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             {/* Google Login */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 sm:w-auto w-full sm:theme-outline">
               <GoogleLogin
                 onSuccess={async (cred) => {
                   const data = await loginWithGoogle(cred.credential);
@@ -145,13 +145,12 @@ const Login = () => {
                 }}
                 onError={() => console.log('Google Login Failed')}
                 type="standard"
-                theme="filled_blue"
+                theme="outline"
                 text="continue_with"
                 shape="rectangular"
                 logo_alignment="center"
-                width={200}
                 auto_select={false}
-                useOneTap={false}
+                useOneTap={true}
               />
             </div>
 
@@ -161,11 +160,11 @@ const Login = () => {
             {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
-              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border bg-black text-white border-gray-800 rounded-md hover:bg-gray-900 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
-              style={{ width: '200px' }}
+              className="w-full sm:w-auto cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
+               
             >
-              <FaGithub className="text-xl" />
-              <span>Continue with GitHub</span>
+              <FaGithub className="text-xl text-black" />
+              <span className='text-gray-800'>Continue with GitHub</span>
             </button>
           </div>
 
