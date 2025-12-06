@@ -286,12 +286,13 @@ const Register = () => {
               auto_select={false}
               useOneTap={true}
             />
-            {/* Divider */}
-            {/* <div className="w-px bg-gray-300 h-10 sm:h-0 sm:w-0 "></div> */}
+            {/* Vertical Divider - Hidden on wrap */}
+            <div className="hidden sm:block w-px h-10 bg-gray-300 flex-shrink-0"></div>
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className=" cursor-pointer flex items-center p-2.5 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
+              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border bg-black text-white border-gray-800 rounded-md hover:bg-gray-900 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+              style={{ width: '200px' }}
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>

@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { loginUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub} from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -64,7 +64,6 @@ const Login = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                 <input
                   name="email"
                   type="email"
@@ -73,7 +72,7 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
                   }`}
                 />
@@ -84,16 +83,15 @@ const Login = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                 <input
                   name="password"
                   type="password"
-                  autoComplete="password"
+                  autoComplete="current-password"
                   required
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
                   }`}
                 />
@@ -111,7 +109,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg transform"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               Sign In
             </button>
@@ -136,31 +134,35 @@ const Login = () => {
             </span>
           </div>
 
-          {/* Social Login Buttons */}
-          {/* Social Login Buttons */}
-          <div className="w-full max-w-lg flex gap-3 justify-center items-center m-auto flex-wrap">
-            {/* Google Login - Full Width */}
-            <GoogleLogin
-              onSuccess={async (cred) => {
-                const data = await loginWithGoogle(cred.credential);
-                if (!data.error) navigate('/');
-              }}
-              onError={() => console.log('Google Login Failed')}
-              type="standard"
-              theme="filled_blue"
-              text="continue_with"
-              shape="rectangular"
-              logo_alignment="center"
-              width={200}
-              auto_select={false}
-              useOneTap={true}
-            />
-            {/* Divider */}
-            {/* <div className="w-px bg-gray-300 h-10 sm:h-0 sm:w-0 "></div> */}
-            {/* GitHub Login - Full Width */}
+          {/* Social Login Buttons with Responsive Divider */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {/* Google Login */}
+            <div className="flex-shrink-0">
+              <GoogleLogin
+                onSuccess={async (cred) => {
+                  const data = await loginWithGoogle(cred.credential);
+                  if (!data.error) navigate('/');
+                }}
+                onError={() => console.log('Google Login Failed')}
+                type="standard"
+                theme="filled_blue"
+                text="continue_with"
+                shape="rectangular"
+                logo_alignment="center"
+                width={200}
+                auto_select={false}
+                useOneTap={false}
+              />
+            </div>
+
+            {/* Vertical Divider - Hidden on wrap */}
+            <div className="hidden sm:block w-px h-10 bg-gray-300 flex-shrink-0"></div>
+
+            {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
-              className=" cursor-pointer flex items-center p-2.5 justify-center gap-3 border bg-black text-white border-gray-300 rounded-sm hover:bg-gray-700 hover:border-gray-300 transition-all duration-200 font-medium text-sm "
+              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border bg-black text-white border-gray-800 rounded-md hover:bg-gray-900 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+              style={{ width: '200px' }}
             >
               <FaGithub className="text-xl" />
               <span>Continue with GitHub</span>
