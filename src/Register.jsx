@@ -278,7 +278,7 @@ const Register = () => {
               }}
               onError={() => console.log('Google Login Failed')}
               type="standard"
-              theme="filled_blue"
+              theme="outline"
               text="continue_with"
               shape="rectangular"
               logo_alignment="center"
@@ -291,11 +291,11 @@ const Register = () => {
             {/* GitHub Login - Full Width */}
             <button
               onClick={handleGithubLogin}
-              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border bg-black text-white border-gray-800 rounded-md hover:bg-gray-900 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm "
               style={{ width: '200px' }}
             >
-              <FaGithub className="text-xl" />
-              <span>Continue with GitHub</span>
+              <FaGithub className="text-xl text-black" />
+              <span className="text-gray-800">Continue with GitHub</span>
             </button>
           </div>
 
