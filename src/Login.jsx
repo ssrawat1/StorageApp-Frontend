@@ -150,7 +150,7 @@ const Login = () => {
                 shape="rectangular"
                 logo_alignment="center"
                 auto_select={false}
-                useOneTap={true}
+                useOneTap={false}
               />
             </div>
 
