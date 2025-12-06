@@ -137,7 +137,7 @@ const Login = () => {
           {/* Social Login Buttons with Responsive Divider */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             {/* Google Login */}
-            <div className="flex-shrink-0 sm:w-auto w-full sm:theme-outline">
+            <div className="flex-shrink-0 w-full sm:w-auto">
               <GoogleLogin
                 onSuccess={async (cred) => {
                   const data = await loginWithGoogle(cred.credential);
@@ -149,7 +149,7 @@ const Login = () => {
                 text="continue_with"
                 shape="rectangular"
                 logo_alignment="center"
-                width="100%"
+                width={400}
                 auto_select={false}
                 useOneTap={false}
               />
@@ -162,10 +162,9 @@ const Login = () => {
             <button
               onClick={handleGithubLogin}
               className="w-full sm:w-auto cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
-               
             >
               <FaGithub className="text-xl text-black" />
-              <span className='text-gray-800'>Continue with GitHub</span>
+              <span className="text-gray-800">Continue with GitHub</span>
             </button>
           </div>
 
