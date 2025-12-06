@@ -62,12 +62,12 @@ function DetailsPopup({ item, onClose }) {
           </div>
           <div>
             <span className="font-semibold">Path:</span>
-            <div
+            <span
               className="mt-1 max-w-full truncate text-gray-700"
               title={fullCleanPath}
             >
               {fullCleanPath}
-            </div>
+            </span>
           </div>
           <div>
             <span className="font-semibold">Size:</span> {formatSize(size)}
