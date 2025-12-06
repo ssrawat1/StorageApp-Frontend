@@ -258,11 +258,11 @@ export default function UsersPage() {
                 <p className="text-xl text-gray-400 mb-2">
                   {userRole !== 'Owner' ? 'No Active Users' : 'No Deleted Users'}
                 </p>
-                <em className="text-gray-400">
+                <p className="text-gray-400">
                   {userRole !== 'Owner'
                     ? 'No users are currently logged in'
                     : 'No users have been deleted'}
-                </em>
+                </p>
               </div>
             </div>
           ) : (
