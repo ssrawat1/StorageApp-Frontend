@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const formatSize = (bytes = 0) => {
   const KB = 1024;
@@ -16,6 +16,8 @@ export const formatSize = (bytes = 0) => {
 function DetailsPopup({ item, onClose }) {
   if (!item) return null;
 
+  console.log('details', item);
+
   const {
     id,
     name,
@@ -29,30 +31,27 @@ function DetailsPopup({ item, onClose }) {
     totalItems,
   } = item;
 
-  // Clean the path
   const pathArray = path.split('/');
   if (pathArray[1]?.startsWith('root-')) {
     pathArray[1] = 'My Drive';
   }
   const fullCleanPath = pathArray.join('/');
-
+ 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, []);
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
       onClick={onClose}
-      role="dialog"
-      aria-modal="true"
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md max-h-[80vh] overflow-auto"
+        className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold mb-4">Details</h2>
@@ -60,13 +59,9 @@ function DetailsPopup({ item, onClose }) {
           <div>
             <span className="font-semibold">Name:</span> {name}
           </div>
-          <div className="flex items-center gap-0.5">
-            <span className="font-semibold">Path:</span>
-            <div className="truncate text-gray-700" title={fullCleanPath}>
-              {fullCleanPath}
-            </div>
+          <div>
+            <span className="font-semibold">Path:</span> {fullCleanPath}
           </div>
-
           <div>
             <span className="font-semibold">Size:</span> {formatSize(size)}
           </div>
@@ -91,7 +86,6 @@ function DetailsPopup({ item, onClose }) {
               </div>
             </>
           )}
-          <div className="text-xs text-gray-500 break-all">ID: {id}</div>
         </div>
         <div className="flex justify-end mt-2">
           <button
