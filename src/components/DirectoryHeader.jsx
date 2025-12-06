@@ -22,7 +22,7 @@ function DirectoryHeader({
   filesList,
 }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userName, setUserName] = useState('Guest User');
   const [userEmail, setUserEmail] = useState('guest@example.com');
