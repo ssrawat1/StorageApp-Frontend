@@ -149,6 +149,7 @@ const Login = () => {
                 text="continue_with"
                 shape="rectangular"
                 logo_alignment="center"
+                width="100%"
                 auto_select={false}
                 useOneTap={false}
               />
