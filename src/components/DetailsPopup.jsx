@@ -60,7 +60,7 @@ function DetailsPopup({ item, onClose }) {
           <div>
             <span className="font-semibold">Name:</span> {name}
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-0.5">
             <span className="font-semibold">Path:</span>
             <div className="truncate text-gray-700" title={fullCleanPath}>
               {fullCleanPath}
