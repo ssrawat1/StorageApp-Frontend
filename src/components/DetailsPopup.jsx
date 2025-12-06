@@ -60,7 +60,7 @@ function DetailsPopup({ item, onClose }) {
           <div>
             <span className="font-semibold">Name:</span> {name}
           </div>
-          <div className='flex justify-center'>
+          <div className='flex justify-center items-center'>
             <span className="font-semibold">Path: </span>
             <div
               className="mt-1 max-w-full truncate text-gray-700"
