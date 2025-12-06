@@ -127,7 +127,7 @@ export default function DetailsPopup({ item, onClose }) {
       aria-modal="true"
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl"
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl max-h-[80vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold mb-4">Details</h2>
@@ -143,9 +143,12 @@ export default function DetailsPopup({ item, onClose }) {
 
               <div className="mb-2">
                 <span className="font-semibold">Path:</span>
-                <div className="mt-1">
-                  <Breadcrumb rawPath={rawPath} onCopy={handleCopy} />
-                </div>
+          <div
+            className="mt-1 max-w-full truncate text-gray-700"
+            title={fullCleanPath}
+          >
+            {fullCleanPath}
+          </div>
               </div>
 
               <div className="mb-2">
