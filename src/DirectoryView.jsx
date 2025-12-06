@@ -388,9 +388,7 @@ function DirectoryView() {
                       />
                     </svg>
                     <p className="text-xl text-gray-400 mb-2">Empty Folder</p>
-                    <em className="text-gray-400">
-                      Upload files or create a folder to get started.
-                    </em>
+                    <p className="text-gray-400">Upload files or create a folder to get started.</p>
                   </>
                 )}
               </div>
