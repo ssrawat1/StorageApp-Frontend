@@ -6,10 +6,10 @@
 
 **A production-ready cloud storage platform built for speed, security, and reliability**
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://safemystuff.store)
+<!-- [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://safemystuff.store)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Node](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)](https://nodejs.org)
-[![React](https://img.shields.io/badge/React-18+-blue?style=for-the-badge&logo=react)](https://reactjs.org)
+[![React](https://img.shields.io/badge/React-18+-blue?style=for-the-badge&logo=react)](https://reactjs.org) -->
 
 </div>
 
