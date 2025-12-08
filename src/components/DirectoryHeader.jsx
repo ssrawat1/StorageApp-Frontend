@@ -105,7 +105,7 @@ function DirectoryHeader({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-300">
+    <header className="sticky top-0 z-40 bg-white border-b border-gray-300">
       <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}

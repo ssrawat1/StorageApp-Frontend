@@ -1,432 +1,121 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import DirectoryHeader from './components/DirectoryHeader';
-import CreateDirectoryModal from './components/CreateDirectoryModal';
-import RenameModal from './components/RenameModal';
-import DirectoryList from './components/DirectoryList';
-import { DirectoryContext } from './context/DirectoryContext';
-import ErrorModal from './components/ErrorModal';
+import { AlertCircle, X, RotateCcw, Home } from 'lucide-react';
 
-import {
-  getDirectoryItems,
-  createDirectory,
-  deleteDirectory,
-  renameDirectory,
-} from './api/directoryApi';
+export default function ErrorModal({ 
+  errorMessage, 
+  onDismiss, 
+  onRetry = null,
+  isVisible 
+}) {
+  if (!isVisible || !errorMessage) return null;
 
-import { deleteFile, renameFile, uploadComplete, uploadInitiate } from './api/fileApi';
-import DetailsPopup from './components/DetailsPopup';
-import ConfirmDeleteModal from './components/ConfirmDeleteModel';
-import { BACKEND_URL } from './config';
-import { fetchUser } from './api/userApi';
-import Breadcrumbs from './components/Breadcrumbs';
-
-function DirectoryView() {
-  const { dirId } = useParams();
-  const navigate = useNavigate();
-
-  const [directoryName, setDirectoryName] = useState('My Drive');
-  const [directoriesList, setDirectoriesList] = useState([]);
-  const [filesList, setFilesList] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false); // Add this
-  const [showCreateDirModal, setShowCreateDirModal] = useState(false);
-  const [newDirname, setNewDirname] = useState('New Folder');
-  const [showRenameModal, setShowRenameModal] = useState(false);
-  const [renameType, setRenameType] = useState(null);
-  const [renameId, setRenameId] = useState(null);
-  const [renameValue, setRenameValue] = useState('');
-  const [breadcrumbPath, setBreadcrumbPath] = useState([]);
-
-  const fileInputRef = useRef(null);
-
-  // Single-file upload state
-  const [uploadItem, setUploadItem] = useState(null);
-  const xhrRef = useRef(null);
-
-  const [activeContextMenu, setActiveContextMenu] = useState(null);
-  const [detailsItem, setDetailsItem] = useState(null);
-  const [deleteItem, setDeleteItem] = useState(null);
-
-  const openDetailsPopup = (item) => {
-    console.log(item);
-    setDetailsItem(item);
-  };
-  const closeDetailsPopup = () => setDetailsItem(null);
-
-  const loadDirectory = async () => {
-    try {
-      const data = await getDirectoryItems(dirId);
-      setDirectoryName(dirId ? data.name : 'My Drive');
-      setDirectoriesList([...data.directories].reverse());
-      setFilesList([...data.files].reverse());
-      setBreadcrumbPath(data.breadcrumbPath);
-    } catch (err) {
-      if (err.response?.status === 401) navigate('/login');
-      else {
-        const errorMsg = err.response?.data?.error || err.message;
-        setErrorMessage(errorMsg);
-        setShowErrorModal(true); // Show modal when error occurs
-      }
-    }
+  // Map error messages to titles
+  const getErrorTitle = (message) => {
+    if (message.includes('250MB')) return 'Upload Failed';
+    if (message.includes('storage')) return 'Storage Full';
+    if (message.includes('permission')) return 'Access Denied';
+    if (message.includes('not found')) return 'Not Found';
+    return 'Error Occurred';
   };
 
-  // Auto-show modal when error message changes
-  useEffect(() => {
-    if (errorMessage && errorMessage !== 'Directory not found or you do not have access to it!') {
-      setShowErrorModal(true);
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    loadDirectory();
-    setActiveContextMenu(null);
-  }, [dirId]);
-
-  function getFileIcon(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    switch (ext) {
-      case 'pdf':
-        return 'pdf';
-      case 'png':
-      case 'jpg':
-      case 'jpeg':
-      case 'gif':
-        return 'image';
-      case 'mp4':
-      case 'mov':
-      case 'avi':
-        return 'video';
-      case 'zip':
-      case 'rar':
-      case 'tar':
-      case 'gz':
-        return 'archive';
-      case 'js':
-      case 'jsx':
-      case 'ts':
-      case 'tsx':
-      case 'html':
-      case 'css':
-      case 'py':
-      case 'java':
-        return 'code';
-      default:
-        return 'alt';
-    }
-  }
-
-  function handleRowClick(type, id) {
-    if (type === 'directory') navigate(`/directory/${id}`);
-    else window.location.href = `${BACKEND_URL}/file/${id}`;
-  }
-
-  async function handleFileSelect(e) {
-    const isAllowToProceed = confirm(
-      'Files larger than 15MB will be skipped.\nDo you want to continue?'
-    );
-
-    if (!isAllowToProceed) {
-      e.target.value = '';
-      return;
-    }
-
-    const uploadSizeLimit = 250 * 1024 * 1024;
-
-    const { storageLimit, storageUsed } = await fetchUser();
-    const remainingStorage = storageLimit - storageUsed;
-
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (file.size > uploadSizeLimit) {
-      setErrorMessage('File exceeds the 250MB upload limit.');
-      setShowErrorModal(true);
-      return;
-    }
-
-    if (file.size > remainingStorage) {
-      setErrorMessage('Not enough storage space available.');
-      setShowErrorModal(true);
-      return;
-    }
-
-    if (uploadItem?.isUploading) {
-      e.target.value = '';
-      setErrorMessage('An upload is already in progress. Please wait.');
-      setShowErrorModal(true);
-      return;
-    }
-
-    const tempItem = {
-      file,
-      name: file.name,
-      size: file.size,
-      ContentType: file.type,
-      id: `temp-${Date.now()}`,
-      isUploading: true,
-      progress: 0,
-    };
-
-    try {
-      const data = await uploadInitiate({
-        fileName: file.name,
-        fileSize: file.size,
-        fileContentType: file.type,
-        parentDirectoryId: dirId || '',
-      });
-
-      const { fileId, uploadSignedUrl } = data;
-
-      setFilesList((prev) => [tempItem, ...prev]);
-      setUploadItem(tempItem);
-      e.target.value = '';
-
-      startUpload({ item: tempItem, uploadUrl: uploadSignedUrl, fileId });
-    } catch (error) {
-      setErrorMessage(error.response.data.error);
-      setShowErrorModal(true);
-    }
-  }
-
-  function startUpload({ item, uploadUrl, fileId }) {
-    console.log({ uploadUrl });
-    const xhr = new XMLHttpRequest();
-    xhrRef.current = xhr;
-
-    xhr.open('PUT', uploadUrl);
-
-    xhr.upload.addEventListener('progress', (evt) => {
-      if (evt.lengthComputable) {
-        const progress = (evt.loaded / evt.total) * 100;
-        setUploadItem((prev) => (prev ? { ...prev, progress } : prev));
-      }
-    });
-
-    xhr.onload = async () => {
-      if (xhr.status === 200) {
-        const response = await uploadComplete(fileId);
-        console.log({ response: response });
-      } else {
-        setErrorMessage('File upload failed!');
-        setShowErrorModal(true);
-      }
-      setUploadItem(null);
-      loadDirectory();
-    };
-
-    xhr.onerror = () => {
-      setErrorMessage('Something went wrong!');
-      setShowErrorModal(true);
-      setFilesList((prev) => prev.filter((f) => f.id !== item.id));
-      setUploadItem(null);
-    };
-
-    xhr.send(item.file);
-  }
-
-  function handleCancelUpload(tempId) {
-    if (uploadItem && uploadItem.id === tempId && xhrRef.current) {
-      xhrRef.current.abort();
-    }
-    setFilesList((prev) => prev.filter((f) => f.id !== tempId));
-    setUploadItem(null);
-  }
-
-  async function confirmDelete(item) {
-    try {
-      if (item.isDirectory) {
-        await deleteDirectory(item.id);
-      } else {
-        await deleteFile(item.id);
-      }
-      setDeleteItem(null);
-      loadDirectory();
-    } catch (err) {
-      setErrorMessage(err.response?.data?.error || err.message);
-      setShowErrorModal(true);
-    }
-  }
-
-  async function handleCreateDirectory(e) {
-    e.preventDefault();
-    try {
-      await createDirectory(dirId, newDirname);
-      setNewDirname('New Folder');
-      setShowCreateDirModal(false);
-      loadDirectory();
-    } catch (err) {
-      setErrorMessage(err.response?.data?.error || err.message);
-      setShowErrorModal(true);
-    }
-  }
-
-  function openRenameModal(type, id, currentName) {
-    setRenameType(type);
-    setRenameId(id);
-    setRenameValue();
-    setShowRenameModal(true);
-  }
-
-  async function handleRenameSubmit(e) {
-    e.preventDefault();
-    try {
-      if (renameType === 'file') await renameFile(renameId, renameValue);
-      else await renameDirectory(renameId, renameValue);
-
-      setShowRenameModal(false);
-      setRenameValue('');
-      setRenameType(null);
-      setRenameId(null);
-      loadDirectory();
-    } catch (err) {
-      setErrorMessage(err.response?.data?.error || err.message);
-      setShowErrorModal(true);
-    }
-  }
-
-  useEffect(() => {
-    const handleDocumentClick = () => setActiveContextMenu(null);
-    document.addEventListener('click', handleDocumentClick);
-    return () => document.removeEventListener('click', handleDocumentClick);
-  }, []);
-
-  const combinedItems = [
-    ...directoriesList.map((d) => ({ ...d, isDirectory: true })),
-    ...filesList.map((f) => ({ ...f, isDirectory: false })),
-  ];
-
-  const isUploading = !!uploadItem?.isUploading;
-  const progressMap = uploadItem ? { [uploadItem.id]: uploadItem.progress || 0 } : {};
+  const title = getErrorTitle(errorMessage);
 
   return (
-    <DirectoryContext.Provider
-      value={{
-        handleRowClick,
-        activeContextMenu,
-        handleContextMenu: (e, id) => {
-          e.stopPropagation();
-          e.preventDefault();
-          setActiveContextMenu((prev) => (prev === id ? null : id));
-        },
-        getFileIcon,
-        isUploading,
-        progressMap,
-        handleCancelUpload,
-        setDeleteItem,
-        openRenameModal,
-        openDetailsPopup,
-      }}
-    >
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
-        {/* Error Modal - Replace old error popup */}
-        <ErrorModal
-          errorMessage={errorMessage}
-          isVisible={showErrorModal}
-          onDismiss={() => {
-            setShowErrorModal(false);
-            setErrorMessage('');
-          }}
-          onRetry={() => {
-            setShowErrorModal(false);
-            setErrorMessage('');
-            loadDirectory();
-          }}
-        />
+    <>
+      {/* Overlay */}
+      <div 
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 animate-in fade-in duration-200"
+        onClick={onDismiss}
+      />
 
-        <DirectoryHeader
-          directoryName={directoryName}
-          onCreateFolderClick={() => setShowCreateDirModal(true)}
-          onUploadFilesClick={() => fileInputRef.current.click()}
-          fileInputRef={fileInputRef}
-          filesList={filesList}
-          handleFileSelect={handleFileSelect}
-          disabled={errorMessage === 'Directory not found or you do not have access to it!'}
-        />
-
-        <div className="mx-2 md:mx-4 pb-8">
-          <Breadcrumbs breadcrumbPath={breadcrumbPath} />
-
-          {showCreateDirModal && (
-            <CreateDirectoryModal
-              newDirname={newDirname}
-              setNewDirname={setNewDirname}
-              onClose={() => setShowCreateDirModal(false)}
-              onCreateDirectory={handleCreateDirectory}
-            />
-          )}
-
-          {showRenameModal && (
-            <RenameModal
-              renameType={renameType}
-              renameValue={renameValue}
-              setRenameValue={setRenameValue}
-              onClose={() => setShowRenameModal(false)}
-              onRenameSubmit={handleRenameSubmit}
-            />
-          )}
-
-          {detailsItem && <DetailsPopup item={detailsItem} onClose={closeDetailsPopup} />}
-
-          {combinedItems.length === 0 ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center p-8 max-w-md">
-                {errorMessage === 'Directory not found or you do not have access to it!' ? (
-                  <>
-                    <svg
-                      className="w-16 h-16 mx-auto text-red-400 mb-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                      />
-                    </svg>
-                    <em className="text-xl font-semibold text-gray-800 mb-2">Access Denied</em>
-                    <em className="text-gray-600">
-                      Directory not found or you don't have permission to access it.
-                    </em>
-                  </>
-                ) : (
-                  <>
-                    <svg
-                      className="w-16 h-16 mx-auto text-gray-400 mb-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      />
-                    </svg>
-                    <p className="text-xl text-gray-400 mb-2">Empty Folder</p>
-                    <p className="text-gray-400">Upload files or create a folder to get started.</p>
-                  </>
-                )}
+      {/* Modal */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div className="max-w-md w-full bg-red-50 rounded-2xl shadow-2xl p-6 sm:p-8 animate-in zoom-in-95 duration-300 border border-red-100">
+          
+          {/* Header */}
+          <div className="flex items-start justify-between mb-4 gap-3">
+            <div className="flex items-start gap-3 sm:gap-4 flex-1">
+              {/* Icon Badge */}
+              <div className="flex-shrink-0 bg-red-100 rounded-full p-2.5 sm:p-3">
+                <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
               </div>
-            </div>
-          ) : (
-            <DirectoryList items={combinedItems} />
-          )}
 
-          {deleteItem && (
-            <ConfirmDeleteModal
-              item={deleteItem}
-              onConfirm={confirmDelete}
-              onCancel={() => setDeleteItem(null)}
-            />
-          )}
+              {/* Title */}
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 pt-0.5">
+                {title}
+              </h1>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={onDismiss}
+              className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 p-1"
+              aria-label="Close error modal"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+          </div>
+
+          {/* Message */}
+          <p className="text-gray-700 text-sm sm:text-base mb-5 sm:mb-6 ml-0 sm:ml-16 leading-relaxed">
+            {errorMessage}
+          </p>
+
+          {/* Suggestions */}
+          <div className="bg-white rounded-lg p-4 sm:p-5 mb-5 sm:mb-6 border border-red-100">
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-red-600 rounded-full flex-shrink-0"></span>
+              What you can do
+            </h3>
+            <ul className="space-y-2 sm:space-y-2.5">
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
+                <span>Check your file size and try uploading again.</span>
+              </li>
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
+                <span>Refresh the page and try again.</span>
+              </li>
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
+                <span>Check your internet connection and retry.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-4">
+            {onRetry && (
+              <button
+                onClick={onRetry}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Try Again</span>
+                <span className="inline xs:hidden">Retry</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => window.location.reload()}
+              className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border border-red-200 bg-white hover:bg-red-50 text-gray-700 text-xs sm:text-sm font-semibold transition-all duration-200"
+            >
+              <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Refresh</span>
+            </button>
+
+            <button
+              onClick={onDismiss}
+              className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border border-red-200 bg-white hover:bg-red-50 text-gray-700 text-xs sm:text-sm font-semibold transition-all duration-200"
+            >
+              <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Dismiss</span>
+            </button>
+          </div>
+
+          {/* Progress bar */}
+          <div className="h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-full"></div>
         </div>
       </div>
-    </DirectoryContext.Provider>
+    </>
   );
 }
-
-export default DirectoryView;
