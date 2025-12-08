@@ -4,6 +4,7 @@ import DirectoryHeader from './components/DirectoryHeader';
 import CreateDirectoryModal from './components/CreateDirectoryModal';
 import RenameModal from './components/RenameModal';
 import DirectoryList from './components/DirectoryList';
+import ErrorModal from './components/ErrorModal'; // Add this import
 import { DirectoryContext } from './context/DirectoryContext';
 
 import {
@@ -28,6 +29,7 @@ function DirectoryView() {
   const [directoriesList, setDirectoriesList] = useState([]);
   const [filesList, setFilesList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false); // Add this
   const [showCreateDirModal, setShowCreateDirModal] = useState(false);
   const [newDirname, setNewDirname] = useState('New Folder');
   const [showRenameModal, setShowRenameModal] = useState(false);
@@ -39,7 +41,7 @@ function DirectoryView() {
   const fileInputRef = useRef(null);
 
   // Single-file upload state
-  const [uploadItem, setUploadItem] = useState(null); // { id, file, name, size, progress, isUploading }
+  const [uploadItem, setUploadItem] = useState(null);
   const xhrRef = useRef(null);
 
   const [activeContextMenu, setActiveContextMenu] = useState(null);
@@ -61,9 +63,20 @@ function DirectoryView() {
       setBreadcrumbPath(data.breadcrumbPath);
     } catch (err) {
       if (err.response?.status === 401) navigate('/login');
-      else setErrorMessage(err.response?.data?.error || err.message);
+      else {
+        const errorMsg = err.response?.data?.error || err.message;
+        setErrorMessage(errorMsg);
+        setShowErrorModal(true); // Show modal when error occurs
+      }
     }
   };
+
+  // Auto-show modal when error message changes
+  useEffect(() => {
+    if (errorMessage && errorMessage !== 'Directory not found or you do not have access to it!') {
+      setShowErrorModal(true);
+    }
+  }, [errorMessage]);
 
   useEffect(() => {
     loadDirectory();
@@ -118,28 +131,30 @@ function DirectoryView() {
       return;
     }
 
-    const uploadSizeLimit = 250 * 1024 * 1024; // Max 250MB
+    const uploadSizeLimit = 250 * 1024 * 1024;
 
     const { storageLimit, storageUsed } = await fetchUser();
-    // console.log({ storageLimit, storageUsed });
     const remainingStorage = storageLimit - storageUsed;
-    // console.log({ remainingStorage });
 
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (file.size > uploadSizeLimit) {
-      return setErrorMessage('File exceeds the 250MB upload limit.');
+      setErrorMessage('File exceeds the 250MB upload limit.');
+      setShowErrorModal(true);
+      return;
     }
 
     if (file.size > remainingStorage) {
-      return setErrorMessage('Not enough storage space available.');
+      setErrorMessage('Not enough storage space available.');
+      setShowErrorModal(true);
+      return;
     }
 
     if (uploadItem?.isUploading) {
       e.target.value = '';
       setErrorMessage('An upload is already in progress. Please wait.');
-      setTimeout(() => setErrorMessage(''), 3000);
+      setShowErrorModal(true);
       return;
     }
 
@@ -163,7 +178,6 @@ function DirectoryView() {
 
       const { fileId, uploadSignedUrl } = data;
 
-      //Optimistically show the file in the list
       setFilesList((prev) => [tempItem, ...prev]);
       setUploadItem(tempItem);
       e.target.value = '';
@@ -171,7 +185,7 @@ function DirectoryView() {
       startUpload({ item: tempItem, uploadUrl: uploadSignedUrl, fileId });
     } catch (error) {
       setErrorMessage(error.response.data.error);
-      setTimeout(() => setErrorMessage(''), 3000);
+      setShowErrorModal(true);
     }
   }
 
@@ -193,10 +207,9 @@ function DirectoryView() {
       if (xhr.status === 200) {
         const response = await uploadComplete(fileId);
         console.log({ response: response });
-        // Clear upload state and refresh directory
       } else {
         setErrorMessage('File upload failed!');
-        setTimeout(() => setErrorMessage(''), 3000);
+        setShowErrorModal(true);
       }
       setUploadItem(null);
       loadDirectory();
@@ -204,10 +217,9 @@ function DirectoryView() {
 
     xhr.onerror = () => {
       setErrorMessage('Something went wrong!');
-      // Remove temp item from the list
+      setShowErrorModal(true);
       setFilesList((prev) => prev.filter((f) => f.id !== item.id));
       setUploadItem(null);
-      setTimeout(() => setErrorMessage(''), 3000);
     };
 
     xhr.send(item.file);
@@ -217,7 +229,6 @@ function DirectoryView() {
     if (uploadItem && uploadItem.id === tempId && xhrRef.current) {
       xhrRef.current.abort();
     }
-    // Remove temp item and reset state
     setFilesList((prev) => prev.filter((f) => f.id !== tempId));
     setUploadItem(null);
   }
@@ -233,6 +244,7 @@ function DirectoryView() {
       loadDirectory();
     } catch (err) {
       setErrorMessage(err.response?.data?.error || err.message);
+      setShowErrorModal(true);
     }
   }
 
@@ -245,6 +257,7 @@ function DirectoryView() {
       loadDirectory();
     } catch (err) {
       setErrorMessage(err.response?.data?.error || err.message);
+      setShowErrorModal(true);
     }
   }
 
@@ -268,6 +281,7 @@ function DirectoryView() {
       loadDirectory();
     } catch (err) {
       setErrorMessage(err.response?.data?.error || err.message);
+      setShowErrorModal(true);
     }
   }
 
@@ -282,7 +296,6 @@ function DirectoryView() {
     ...filesList.map((f) => ({ ...f, isDirectory: false })),
   ];
 
-  // For compatibility with children expecting these values:
   const isUploading = !!uploadItem?.isUploading;
   const progressMap = uploadItem ? { [uploadItem.id]: uploadItem.progress || 0 } : {};
 
@@ -306,14 +319,20 @@ function DirectoryView() {
       }}
     >
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
-        {errorMessage &&
-          errorMessage !== 'Directory not found or you do not have access to it!' && (
-            <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
-              <div className="bg-red-50 border-l-4 border-orange-500 text-red-900 px-4 py-3 rounded-lg shadow-lg">
-                <p className="text-sm font-medium">{errorMessage}</p>
-              </div>
-            </div>
-          )}
+        {/* Error Modal - Replace old error popup */}
+        <ErrorModal
+          errorMessage={errorMessage}
+          isVisible={showErrorModal}
+          onDismiss={() => {
+            setShowErrorModal(false);
+            setErrorMessage('');
+          }}
+          onRetry={() => {
+            setShowErrorModal(false);
+            setErrorMessage('');
+            loadDirectory();
+          }}
+        />
 
         <DirectoryHeader
           directoryName={directoryName}
