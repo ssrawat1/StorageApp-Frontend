@@ -4,8 +4,8 @@ import DirectoryHeader from './components/DirectoryHeader';
 import CreateDirectoryModal from './components/CreateDirectoryModal';
 import RenameModal from './components/RenameModal';
 import DirectoryList from './components/DirectoryList';
-import ErrorModal from './components/ErrorModal'; // Add this import
 import { DirectoryContext } from './context/DirectoryContext';
+import ErrorModal from './components/ErrorModal';
 
 import {
   getDirectoryItems,
