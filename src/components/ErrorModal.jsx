@@ -28,19 +28,19 @@ export default function ErrorModal({
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 animate-in zoom-in-95 duration-300">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div className="max-w-md w-full bg-red-50 rounded-2xl shadow-2xl p-6 sm:p-8 animate-in zoom-in-95 duration-300 border border-red-100">
           
           {/* Header */}
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-start gap-4">
+          <div className="flex items-start justify-between mb-4 gap-3">
+            <div className="flex items-start gap-3 sm:gap-4 flex-1">
               {/* Icon Badge */}
-              <div className="flex-shrink-0 bg-red-100 rounded-full p-3">
-                <AlertCircle className="w-6 h-6 text-red-600" />
+              <div className="flex-shrink-0 bg-red-100 rounded-full p-2.5 sm:p-3">
+                <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 pt-0.5">
                 {title}
               </h1>
             </div>
@@ -48,66 +48,67 @@ export default function ErrorModal({
             {/* Close Button */}
             <button
               onClick={onDismiss}
-              className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
+              className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 p-1"
               aria-label="Close error modal"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
 
           {/* Message */}
-          <p className="text-gray-600 text-sm mb-6 ml-16">
+          <p className="text-gray-700 text-sm sm:text-base mb-5 sm:mb-6 ml-0 sm:ml-16 leading-relaxed">
             {errorMessage}
           </p>
 
           {/* Suggestions */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+          <div className="bg-white rounded-lg p-4 sm:p-5 mb-5 sm:mb-6 border border-red-100">
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-red-600 rounded-full flex-shrink-0"></span>
               What you can do
             </h3>
-            <ul className="space-y-2">
-              <li className="text-sm text-gray-700 flex gap-2">
-                <span className="text-red-600 font-bold">•</span>
+            <ul className="space-y-2 sm:space-y-2.5">
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
                 <span>Check your file size and try uploading again.</span>
               </li>
-              <li className="text-sm text-gray-700 flex gap-2">
-                <span className="text-red-600 font-bold">•</span>
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
                 <span>Refresh the page and try again.</span>
               </li>
-              <li className="text-sm text-gray-700 flex gap-2">
-                <span className="text-red-600 font-bold">•</span>
+              <li className="text-xs sm:text-sm text-gray-700 flex gap-2">
+                <span className="text-red-600 font-bold flex-shrink-0">•</span>
                 <span>Check your internet connection and retry.</span>
               </li>
             </ul>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 mb-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-4">
             {onRetry && (
               <button
                 onClick={onRetry}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
               >
-                <RotateCcw className="w-4 h-4" />
-                Try Again
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Try Again</span>
+                <span className="inline xs:hidden">Retry</span>
               </button>
             )}
 
             <button
               onClick={() => window.location.reload()}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-semibold transition-all duration-200"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border border-red-200 bg-white hover:bg-red-50 text-gray-700 text-xs sm:text-sm font-semibold transition-all duration-200"
             >
-              <RotateCcw className="w-4 h-4" />
-              Refresh
+              <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Refresh</span>
             </button>
 
             <button
               onClick={onDismiss}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-semibold transition-all duration-200"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border border-red-200 bg-white hover:bg-red-50 text-gray-700 text-xs sm:text-sm font-semibold transition-all duration-200"
             >
-              <Home className="w-4 h-4" />
-              Dismiss
+              <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Dismiss</span>
             </button>
           </div>
 
