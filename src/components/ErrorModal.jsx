@@ -29,7 +29,10 @@ export default function ErrorModal({
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
-        <div className="max-w-md w-full bg-red-50 rounded-2xl shadow-2xl p-6 sm:p-8 animate-in zoom-in-95 duration-300 border border-red-100">
+        <div 
+          className="max-w-md w-full bg-red-50 rounded-2xl shadow-2xl p-6 sm:p-8 animate-in zoom-in-95 duration-300 border border-red-100"
+          onClick={(e) => e.stopPropagation()}
+        >
           
           {/* Header */}
           <div className="flex items-start justify-between mb-4 gap-3">

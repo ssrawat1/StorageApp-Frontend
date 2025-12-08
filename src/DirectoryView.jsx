@@ -323,10 +323,10 @@ function DirectoryView() {
         <ErrorModal
           errorMessage={errorMessage}
           isVisible={showErrorModal}
-          onDismiss={() => {
-            setShowErrorModal(falste);
+          onDismiss={(e) => {
+            setShowErrorModal("");
             setErrorMessage('');
-          }}
+           }}
           onRetry={() => {
             setShowErrorModal(false);
             setErrorMessage('');
