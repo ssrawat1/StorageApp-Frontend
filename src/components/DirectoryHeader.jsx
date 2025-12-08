@@ -9,12 +9,10 @@ import {
   FaSignInAlt,
   FaBars,
   FaTimes,
-  FaPlus,
 } from 'react-icons/fa';
 import { formatSize } from './DetailsPopup';
 
 function DirectoryHeader({
-  directoryName,
   onCreateFolderClick,
   onUploadFilesClick,
   fileInputRef,
