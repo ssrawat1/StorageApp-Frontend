@@ -308,8 +308,8 @@ function DirectoryView() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
         {errorMessage &&
           errorMessage !== 'Directory not found or you do not have access to it!' && (
-            <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 w-full max-w-md px-4">
-              <div className="bg-red-50 border-l-4 border-red-500 text-red-900 px-4 py-3 rounded-lg shadow-lg">
+            <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+              <div className="bg-red-50 border-l-4 border-orange-500 text-red-900 px-4 py-3 rounded-lg shadow-lg">
                 <p className="text-sm font-medium">{errorMessage}</p>
               </div>
             </div>
