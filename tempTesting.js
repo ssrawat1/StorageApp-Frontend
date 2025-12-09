@@ -1,15 +1,9 @@
-// const allTestPassed = Math.random() > 0.5;
 const allTestPassed = true;
 
-// Color helpers
-const green = '\x1b[32m';
-const red = '\x1b[31m';
-const reset = '\x1b[0m';
-
 if (allTestPassed) {
-  console.log(`${green}🎨 ✅ All frontend tests have passed! 🚀${reset}`);
+  console.log(`🎨 ✅ All frontend tests have passed! 🚀`);
   process.exit(0);
 } else {
-  console.log(`${red}🎨 ❌ Frontend tests have failed! 🛑${reset}`);
+  console.log(`🎨 ❌ Frontend tests have failed! 🛑`);
   process.exit(1);
 }
