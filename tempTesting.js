@@ -1,4 +1,4 @@
-const allTestPassed = true;
+const allTestPassed = false;
 
 if (allTestPassed) {
   console.log(`🎨 ✅ All frontend tests have passed! 🚀`);
