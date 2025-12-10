@@ -1,9 +1,9 @@
 const allTestPassed = false;
 
 if (allTestPassed) {
-  console.log(`🎨 ✅ All frontend tests have passed! 🚀`);
+  console.log(`✅ All frontend tests have passed! 🚀`);
   process.exit(0);
 } else {
-  console.log(`🎨 ❌ Frontend tests have failed! 🛑`);
+  console.log(`❌ Frontend tests have failed! 🛑`);
   process.exit(1);
 }
