@@ -40,7 +40,7 @@ const Login = () => {
       newErrors.password = "Password is required";
       isValid = false;
     } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(formData.password)) {
-      newErrors.password = "Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number & 1 special character (@$!%*?&)";
+      newErrors.password = "Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number & 1 special character";
       isValid = false;
     }
 

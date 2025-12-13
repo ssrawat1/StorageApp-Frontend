@@ -40,6 +40,45 @@ const Register = () => {
     }
   }, [countdown]);
 
+  // Validation function
+  const validateForm = () => {
+    const newErrors = { name: '', email: "", password: "" };
+    let isValid = true;
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+      isValid = false;
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.name.trim())) {
+      newErrors.name = "Name can only contain letters and spaces";
+      isValid = false;
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Password validation with regex
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number & 1 special character (@$!%*?&)";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'email') {
@@ -49,6 +88,15 @@ const Register = () => {
       setOtpVerified(false);
       setCountdown(0);
     }
+    
+    // Clear field error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: DOMPurify.sanitize(value),
@@ -56,7 +104,22 @@ const Register = () => {
   };
 
   const handleSendOtp = async () => {
-    if (!formData.email) return setOtpError('Please enter your email first.');
+    // Validate email field before sending OTP
+    if (!formData.email.trim()) {
+      setErrors(prev => ({
+        ...prev,
+        email: "Email is required"
+      }));
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setErrors(prev => ({
+        ...prev,
+        email: "Please enter a valid email address"
+      }));
+      return;
+    }
+
     try {
       setIsSending(true);
       await sendOtp(formData.email);
@@ -87,6 +150,12 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate all fields before submission
+    if (!validateForm()) {
+      return;
+    }
+
     if (!otpVerified) return setOtpError('Please verify your email with OTP.');
     try {
       await registerUser({ ...formData, otp });
@@ -131,9 +200,19 @@ const Register = () => {
                   value={formData.name}
                   autoComplete="name"
                   onChange={handleChange}
-                  className="w-full pl-5 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
               </div>
+              {errors.name && (
+                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <p className="text-red-700 text-sm flex items-start gap-2">
+                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span className="leading-relaxed">{errors.name}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Email Field with OTP Button */}
@@ -149,8 +228,9 @@ const Register = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
+                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
                 <button
                   type="button"
@@ -161,6 +241,14 @@ const Register = () => {
                   {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
                 </button>
               </div>
+              {errors.email && (
+                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <p className="text-red-700 text-sm flex items-start gap-2">
+                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span className="leading-relaxed">{errors.email}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Server Error Message - Separate Alert Box */}
@@ -239,9 +327,19 @@ const Register = () => {
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-5 pr-4 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
               </div>
+              {errors.password && (
+                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <p className="text-red-700 text-sm flex items-start gap-2">
+                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span className="leading-relaxed">{errors.password}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Submit Button */}
