@@ -12,6 +12,12 @@ const Login = () => {
     email: '',
     password: '',
   });
+
+  const [setErrors, setSetErrors] = useState({
+    email: "",
+    password: ""
+  })
+
   const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
 
@@ -72,9 +78,8 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
               </div>
             </div>
@@ -91,9 +96,8 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
               </div>
               {serverError && (
