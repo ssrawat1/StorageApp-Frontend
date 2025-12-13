@@ -52,7 +52,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (serverError) setServerError('');
-    
+
     // Clear field error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -72,7 +72,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form before submission
     if (!validateForm()) {
       return;
@@ -121,9 +121,8 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
               </div>
               {errors.email && (
@@ -148,9 +147,8 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-4 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
                 <button
                   type="button"
@@ -216,6 +214,7 @@ const Login = () => {
               <GoogleLogin
                 onSuccess={async (cred) => {
                   const data = await loginWithGoogle(cred.credential);
+                  console.log("Google Login Data Client-Side:", data)
                   if (!data.error) navigate('/');
                 }}
                 onError={() => console.log('Google Login Failed')}
