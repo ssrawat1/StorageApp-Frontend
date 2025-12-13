@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
-import { FaGithub, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaGithub, FaCheckCircle } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
 
@@ -14,6 +14,13 @@ const Register = () => {
     email: '',
     password: '',
   });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: "",
+    password: ""
+  })
+
   const [serverError, setServerError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [otp, setOtp] = useState('');
@@ -142,9 +149,8 @@ const Register = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
                 <button
                   type="button"
@@ -184,11 +190,10 @@ const Register = () => {
                     type="button"
                     onClick={handleVerifyOtp}
                     disabled={isVerifying || otpVerified}
-                    className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${
-                      otpVerified
+                    className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${otpVerified
                         ? 'bg-green-600 text-white cursor-default'
                         : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
-                    }`}
+                      }`}
                   >
                     {isVerifying ? (
                       'Verifying...'
