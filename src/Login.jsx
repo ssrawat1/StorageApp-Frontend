@@ -13,7 +13,7 @@ const Login = () => {
     password: '',
   });
 
-  const [setErrors, setSetErrors] = useState({
+  const [errors, setErrors] = useState({
     email: "",
     password: ""
   })
@@ -21,9 +21,45 @@ const Login = () => {
   const [serverError, setServerError] = useState('');
   const navigate = useNavigate();
 
+  // Validation function
+  const validateForm = () => {
+    const newErrors = { email: "", password: "" };
+    let isValid = true;
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Password validation with single regex
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number & 1 special character (@$!%*?&)";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (serverError) setServerError('');
+    
+    // Clear field error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: DOMPurify.sanitize(value, {
@@ -35,6 +71,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const data = await loginUser(formData);
       if (data.error) setServerError(data.error);
@@ -78,10 +120,19 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
               </div>
+              {errors.email && (
+                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                  <p className="text-red-700 text-sm flex items-start gap-2">
+                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span className="leading-relaxed">{errors.email}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Password Field */}
@@ -96,19 +147,30 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${serverError ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
               </div>
-              {serverError && (
-                <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+              {errors.password && (
+                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
                   <p className="text-red-700 text-sm flex items-start gap-2">
                     <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                    <span className="leading-relaxed">{serverError}</span>
+                    <span className="leading-relaxed">{errors.password}</span>
                   </p>
                 </div>
               )}
             </div>
+
+            {/* Server Error - Only shown if there are no field validation errors */}
+            {serverError && !errors.email && !errors.password && (
+              <div className="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                <p className="text-red-700 text-sm flex items-start gap-2">
+                  <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                  <span className="leading-relaxed">{serverError}</span>
+                </p>
+              </div>
+            )}
 
             {/* Submit Button */}
             <button
