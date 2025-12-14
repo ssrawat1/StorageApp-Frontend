@@ -6,6 +6,8 @@ import UsersPage from './UsersPage';
 import GithubAuth from './components/GithubAuth';
 import SubscriptionPlans from './components/SubscriptionPlans';
 import NotFoundPage from './NotFoundPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,15 @@ const router = createBrowserRouter([
     path: '/Plans',
     element: <SubscriptionPlans />,
   },
+  {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />
+  },
+  {
+    path: "/terms-of-service",
+    element: <TermsOfService />
+  },
+
   {
     path: '*',
     element: <NotFoundPage />,

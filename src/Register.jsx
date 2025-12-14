@@ -89,7 +89,7 @@ const Register = () => {
       setOtpVerified(false);
       setCountdown(0);
     }
-    
+
     // Clear field error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -151,7 +151,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate all fields before submission
     if (!validateForm()) {
       return;
@@ -201,9 +201,8 @@ const Register = () => {
                   value={formData.name}
                   autoComplete="name"
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
               </div>
               {errors.name && (
@@ -229,9 +228,8 @@ const Register = () => {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
                 <button
                   type="button"
@@ -280,8 +278,8 @@ const Register = () => {
                     onClick={handleVerifyOtp}
                     disabled={isVerifying || otpVerified}
                     className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${otpVerified
-                        ? 'bg-green-600 text-white cursor-default'
-                        : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+                      ? 'bg-green-600 text-white cursor-default'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
                       }`}
                   >
                     {isVerifying ? (
@@ -328,9 +326,8 @@ const Register = () => {
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-5 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
+                  className={`w-full pl-5 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    }`}
                 />
                 <button
                   type="button"
@@ -413,14 +410,14 @@ const Register = () => {
 
           {/* Footer Note */}
           <p className="text-center text-xs text-gray-500 mt-6">
-            By creating an account, you agree to our{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Terms
-            </a>{' '}
+            By continuing, you agree to our{' '}
+            <Link to="/terms-of-service" className="text-blue-600 hover:underline">
+              Terms of Service
+            </Link>{' '}
             and{' '}
-            <a href="#" className="text-blue-600 hover:underline">
+            <Link to="/privacy-policy" className="text-blue-600 hover:underline">
               Privacy Policy
-            </a>
+            </Link>
           </p>
         </div>
       </div>

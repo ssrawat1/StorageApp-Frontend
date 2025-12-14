@@ -247,13 +247,13 @@ const Login = () => {
           {/* Footer Note */}
           <p className="text-center text-xs text-gray-500 mt-6">
             By continuing, you agree to our{' '}
-            <a href="#" className="text-blue-600 hover:underline">
-              Terms
-            </a>{' '}
+            <Link to="/terms-of-service" className="text-blue-600 hover:underline">
+              Terms of Service
+            </Link>{' '}
             and{' '}
-            <a href="#" className="text-blue-600 hover:underline">
+            <Link to="/privacy-policy" className="text-blue-600 hover:underline">
               Privacy Policy
-            </a>
+            </Link>
           </p>
         </div>
       </div>
