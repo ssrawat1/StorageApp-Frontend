@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Character encoding and browser compatibility -->
+    <!-- Character Encoding & Viewport -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,52 +10,38 @@
     <title>SafeMyStuff – Secure Cloud Storage</title>
     <meta
       name="description"
-      content="SafeMyStuff is a secure cloud storage platform to upload, manage and access your files from anywhere. Fast, private and reliable file storage for everyone."
+      content="SafeMyStuff is a secure cloud storage platform to upload, manage and access your files from anywhere. Fast, private and reliable file storage."
     />
+    <meta name="keywords" content="cloud storage, secure file storage, file sharing, online storage" />
     <meta name="author" content="SafeMyStuff" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="cloud storage, secure file storage, file sharing, online storage, data backup" />
 
-    <!-- Canonical URL (important for SEO) -->
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://safemystuff.store/" />
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Open Graph Meta Tags (for social sharing) -->
+    <!-- Open Graph (Social Sharing) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SafeMyStuff" />
     <meta property="og:url" content="https://safemystuff.store/" />
     <meta property="og:title" content="SafeMyStuff – Secure Cloud Storage" />
-    <meta
-      property="og:description"
-      content="Upload, manage and access your files securely from anywhere. Fast, private and reliable cloud storage for everyone."
-    />
-    <meta property="og:image" content="https://safemystuff.store/og-image-1200x630.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:description" content="Upload, manage and access your files securely from anywhere." />
+    <meta property="og:image" content="https://safemystuff.store/og-image.png" />
 
-    <!-- Twitter Card Meta Tags -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@safemystuff" />
     <meta name="twitter:title" content="SafeMyStuff – Secure Cloud Storage" />
-    <meta
-      name="twitter:description"
-      content="Upload, manage and access your files securely from anywhere. Fast, private and reliable cloud storage."
-    />
-    <meta name="twitter:image" content="https://safemystuff.store/og-image-1200x630.png" />
+    <meta name="twitter:description" content="Upload, manage and access your files securely from anywhere." />
+    <meta name="twitter:image" content="https://safemystuff.store/og-image.png" />
 
-    <!-- Theme color for mobile browsers -->
+    <!-- Theme Color -->
     <meta name="theme-color" content="#0f172a" />
-    <meta name="msapplication-TileColor" content="#0f172a" />
 
-    <!-- Performance: Preconnect to external resources -->
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://accounts.google.com" />
-    <link rel="preconnect" href="https://apis.google.com" />
 
     <!-- Google Fonts -->
     <link
@@ -63,50 +49,21 @@
       rel="stylesheet"
     />
 
-    <!-- Structured Data (Schema.org - JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "SafeMyStuff",
-        "url": "https://safemystuff.store/",
-        "description": "Secure cloud storage platform to upload, manage and access your files from anywhere.",
-        "publisher": {
-          "@type": "Organization",
-          "name": "SafeMyStuff",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://safemystuff.store/logo.png"
-          }
-        },
-        "sameAs": [
-          "https://twitter.com/safemystuff"
-        ]
-      }
-    </script>
-
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <!-- Your app CSS -->
+    <!-- App CSS -->
     <link rel="stylesheet" href="./src/App.css" />
   </head>
 
-  <body style="font-family: 'Inter', 'Poppins', sans-serif; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; font-family: 'Inter', 'Poppins', sans-serif;">
     <div id="root"></div>
 
-    <!-- Fallback for users with JavaScript disabled -->
+    <!-- Fallback for JavaScript Disabled -->
     <noscript>
       <div style="padding: 2rem; background: #f8f9fa; border: 1px solid #dee2e6; text-align: center; margin: 2rem;">
-        <h2 style="color: #333; margin-bottom: 1rem;">JavaScript Required</h2>
-        <p style="color: #666; margin-bottom: 1rem;">
-          JavaScript is required to view this site. Please enable JavaScript in your browser settings.
-        </p>
-        <a href="/" style="color: #0066cc; text-decoration: none; font-weight: 600;">Return to SafeMyStuff</a>
+        <p style="color: #666;">JavaScript is required to view this site. Visit <a href="/">SafeMyStuff</a> for more info.</p>
       </div>
     </noscript>
 
-    <!-- Your React app entry point -->
+    <!-- React App Entry Point -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
