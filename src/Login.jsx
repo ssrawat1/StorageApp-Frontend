@@ -213,6 +213,7 @@ const Login = () => {
             <div className="flex-shrink-0">
               <GoogleLogin
                 onSuccess={async (cred) => {
+                  console.log("google response data:", cred.credential)
                   const data = await loginWithGoogle(cred.credential);
                   console.log("Google Login Data Client-Side:", data)
                   if (!data.error) navigate('/');
