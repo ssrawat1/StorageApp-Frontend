@@ -311,7 +311,7 @@ export default function UsersPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span
-                              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
+                              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800 cursor-pointer' : 'bg-gray-100 text-gray-800'}`}
                             >
                               {user.isLoggedIn ? 'Active' : 'Inactive'}
                             </span>
@@ -320,7 +320,7 @@ export default function UsersPage() {
                             <button
                               onClick={() => logoutUser(user)}
                               disabled={!user.isLoggedIn}
-                              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md cursor-pointer' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                             >
                               Logout
                             </button>
@@ -330,7 +330,7 @@ export default function UsersPage() {
                               <button
                                 onClick={() => deleteUser(user)}
                                 disabled={user.email === userEmail || user.isDeleted}
-                                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md'}`}
+                                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md cursor-pointer'}`}
                               >
                                 Delete
                               </button>
@@ -343,7 +343,7 @@ export default function UsersPage() {
                                   setShowRoleModel(true);
                                   setRoleId(user.id);
                                 }}
-                                className="px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+                                className="cursor-pointer px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
                               >
                                 Assign
                               </button>
@@ -371,7 +371,7 @@ export default function UsersPage() {
                         <p className="text-sm text-gray-600 truncate mt-1">{user.email}</p>
                       </div>
                       <span
-                        className={`ml-3 flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
+                        className={`ml-3 flex-shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${user.isLoggedIn ? 'bg-green-100 text-green-800 cursor-pointer' : 'bg-gray-100 text-gray-800'}`}
                       >
                         {user.isLoggedIn ? 'Active' : 'Inactive'}
                       </span>
@@ -380,7 +380,7 @@ export default function UsersPage() {
                       <button
                         onClick={() => logoutUser(user)}
                         disabled={!user.isLoggedIn}
-                        className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                        className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm cursor-pointer' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                       >
                         Logout
                       </button>
@@ -388,7 +388,7 @@ export default function UsersPage() {
                         <button
                           onClick={() => deleteUser(user)}
                           disabled={user.email === userEmail || user.isDeleted}
-                          className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm'}`}
+                          className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm cursor-pointer'}`}
                         >
                           Delete
                         </button>
@@ -399,7 +399,7 @@ export default function UsersPage() {
                             setShowRoleModel(true);
                             setRoleId(user.id);
                           }}
-                          className="flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm transition-all duration-200"
+                          className="cursor-pointer flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm transition-all duration-200"
                         >
                           Assign Role
                         </button>
