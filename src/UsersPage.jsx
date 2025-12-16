@@ -10,7 +10,6 @@ export default function UsersPage() {
   const [userName, setUserName] = useState('Guest User');
   const [userEmail, setUserEmail] = useState('');
   const [userRole, setUserRole] = useState('User');
-  const [routeAccessError, setRouteAccessError] = useState('');
   const [query, setQuery] = useState('all');
   const [showRoleModel, setShowRoleModel] = useState(false);
   const [newRole, setNewRole] = useState('');
@@ -20,7 +19,7 @@ export default function UsersPage() {
   const [resStatus, setResStatus] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  
+
   // Action Modal State
   const [showActionModal, setShowActionModal] = useState(false);
   const [actionType, setActionType] = useState(null); // 'delete' or 'logout'
