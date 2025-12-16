@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchAllUsers, fetchUser, deleteUserById, logoutUserById } from './api/userApi';
 import CreateRoleMode from './components/CreateRoleMode';
 import { roleChange } from './api/roleChangeApi';
+import ActionModal from './components/ActionModel';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -19,6 +20,11 @@ export default function UsersPage() {
   const [resStatus, setResStatus] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  
+  // Action Modal State
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [actionType, setActionType] = useState(null); // 'delete' or 'logout'
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const navigate = useNavigate();
   const accountStatus = ['all', 'active', 'deleted'];
@@ -70,26 +76,47 @@ export default function UsersPage() {
 
   const filteredUsers = users.filter(filterMap[query] || filterMap.all);
 
-  const logoutUser = async (user) => {
-    const confirmed = confirm(`Logout ${user.email}?`);
-    if (!confirmed) return;
+  // Open modal for logout
+  const openLogoutModal = (user) => {
+    setSelectedUser(user);
+    setActionType('logout');
+    setShowActionModal(true);
+  };
+
+  // Open modal for delete
+  const openDeleteModal = (user) => {
+    setSelectedUser(user);
+    setActionType('delete');
+    setShowActionModal(true);
+  };
+
+  // Handle confirm action
+  const handleConfirmAction = async () => {
+    if (!selectedUser) return;
+
     try {
-      await logoutUserById(user.id);
-      fetchUsers();
+      if (actionType === 'logout') {
+        await logoutUserById(selectedUser.id);
+      } else if (actionType === 'delete') {
+        await deleteUserById(selectedUser.id);
+      }
+      await fetchUsers();
+      setShowActionModal(false);
+      setSelectedUser(null);
+      setActionType(null);
     } catch (err) {
-      console.error('Logout error:', err);
+      console.error('Action error:', err);
+      setShowActionModal(false);
+      setSelectedUser(null);
+      setActionType(null);
     }
   };
 
-  const deleteUser = async (user) => {
-    const confirmed = confirm(`Delete ${user.email}?`);
-    if (!confirmed) return;
-    try {
-      await deleteUserById(user.id);
-      await fetchUsers();
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  // Handle cancel action
+  const handleCancelAction = () => {
+    setShowActionModal(false);
+    setSelectedUser(null);
+    setActionType(null);
   };
 
   useEffect(() => {
@@ -105,13 +132,12 @@ export default function UsersPage() {
       const errorMessage = err.response?.data?.error || 'Access denied';
       console.log('err:', errorMessage);
 
-      // Show toast and redirect to home
       if (err.response?.status === 403) {
         setToastMessage(errorMessage);
         setShowToast(true);
         setTimeout(() => {
           navigate('/');
-        }, 2000);  
+        }, 2000);
       } else if (err.response?.status === 401) {
         setToastMessage('Please login to continue');
         setShowToast(true);
@@ -145,6 +171,15 @@ export default function UsersPage() {
 
   return (
     <>
+      {/* Action Modal */}
+      <ActionModal
+        isOpen={showActionModal}
+        actionType={actionType}
+        user={selectedUser}
+        onConfirm={handleConfirmAction}
+        onCancel={handleCancelAction}
+      />
+
       {/* Toast Notification - Top Right */}
       {showToast && (
         <div className="fixed top-4 right-4 z-50 animate-slideInRight">
@@ -318,7 +353,7 @@ export default function UsersPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-center">
                             <button
-                              onClick={() => logoutUser(user)}
+                              onClick={() => openLogoutModal(user)}
                               disabled={!user.isLoggedIn}
                               className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md cursor-pointer' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                             >
@@ -328,7 +363,7 @@ export default function UsersPage() {
                           {(userRole === 'Admin' || userRole === 'Owner') && (
                             <td className="px-6 py-4 whitespace-nowrap text-center">
                               <button
-                                onClick={() => deleteUser(user)}
+                                onClick={() => openDeleteModal(user)}
                                 disabled={user.email === userEmail || user.isDeleted}
                                 className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md cursor-pointer'}`}
                               >
@@ -378,7 +413,7 @@ export default function UsersPage() {
                     </div>
                     <div className="flex flex-wrap gap-2 mt-4">
                       <button
-                        onClick={() => logoutUser(user)}
+                        onClick={() => openLogoutModal(user)}
                         disabled={!user.isLoggedIn}
                         className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isLoggedIn ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm cursor-pointer' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
                       >
@@ -386,7 +421,7 @@ export default function UsersPage() {
                       </button>
                       {(userRole === 'Admin' || userRole === 'Owner') && (
                         <button
-                          onClick={() => deleteUser(user)}
+                          onClick={() => openDeleteModal(user)}
                           disabled={user.email === userEmail || user.isDeleted}
                           className={`flex-1 min-w-[100px] px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${user.isDeleted || user.email === userEmail ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 text-white shadow-sm cursor-pointer'}`}
                         >
