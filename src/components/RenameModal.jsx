@@ -22,6 +22,16 @@ function RenameModal({ renameType, renameValue, setRenameValue, onClose, onRenam
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Check if input is empty or only whitespace
+  const isInputEmpty = !renameValue || renameValue.trim() === '';
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isInputEmpty) {
+      onRenameSubmit(e);
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
@@ -31,15 +41,19 @@ function RenameModal({ renameType, renameValue, setRenameValue, onClose, onRenam
         className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-lg font-semibold mb-4">
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">
           Rename {renameType === 'file' ? 'File' : 'Folder'}
         </h2>
-        <form onSubmit={onRenameSubmit}>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="rename-input" className="block text-sm font-medium text-gray-700 mb-2">
+            Enter new name
+          </label>
           <input
+            id="rename-input"
             ref={inputRef}
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter new name"
+            placeholder={`Enter new ${renameType === 'file' ? 'file' : 'folder'} name`}
             value={renameValue}
             onChange={(e) =>
               setRenameValue(
@@ -50,19 +64,28 @@ function RenameModal({ renameType, renameValue, setRenameValue, onClose, onRenam
               )
             }
           />
-          <div className="flex justify-end gap-2 mt-4">
+          <p className="text-xs text-gray-500 mt-2">
+            {renameType === 'file' ? 'File extension will be preserved' : 'Folder name will be updated'}
+          </p>
+
+          <div className="flex justify-end gap-2 mt-6">
             <button
-              className="bg-blue-500 text-white px-4 py-2 cursor-pointer rounded hover:bg-blue-600"
-              type="submit"
-            >
-              Save
-            </button>
-            <button
-              className="bg-gray-300 text-black px-4 py-2 cursor-pointer rounded hover:bg-gray-400"
+              className="bg-gray-200 text-gray-700 px-4 py-2 cursor-pointer rounded hover:bg-gray-300 transition-colors font-medium"
               type="button"
               onClick={onClose}
             >
               Cancel
+            </button>
+            <button
+              className={`px-4 py-2 cursor-pointer rounded transition-colors font-medium ${
+                isInputEmpty
+                  ? 'bg-blue-300 text-blue-50 cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+              type="submit"
+              disabled={isInputEmpty}
+            >
+              Save
             </button>
           </div>
         </form>
