@@ -63,9 +63,6 @@ function ConfirmDeleteModal({ item, onConfirm, onCancel }) {
           <p className="text-sm text-gray-700 font-medium">
             {item.name}
           </p>
-          <p className="text-xs text-gray-500 mt-1">
-            {isFolder ? 'Folder' : 'File'}
-          </p>
         </div>
 
         {/* Warning Message */}
