@@ -10,7 +10,6 @@ export default function GithubAuth() {
 
   useEffect(() => {
     const run = async () => {
-      console.log('running...');
       const params = new URLSearchParams(location.search);
       const code = params.get('code');
       console.log({ code });
@@ -21,7 +20,7 @@ export default function GithubAuth() {
           const data = await loginWithGithub(code);
           console.log({ data });
           setStatus('success');
-          
+
           // Small delay to show success state
           setTimeout(() => {
             navigate('/');
@@ -30,7 +29,7 @@ export default function GithubAuth() {
           console.error('Github Login Failed:', err.message);
           setStatus('error');
           setErrorMessage(err.message || 'Authentication failed');
-          
+
           // Redirect after 3 seconds
           setTimeout(() => {
             navigate('/register');
@@ -40,7 +39,7 @@ export default function GithubAuth() {
         console.log('Github Login Failed: No code found');
         setStatus('error');
         setErrorMessage('No authorization code found');
-        
+
         setTimeout(() => {
           navigate('/register');
         }, 3000);
@@ -62,7 +61,7 @@ export default function GithubAuth() {
                 <div className="absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-blue-500 rounded-full animate-spin"></div>
               </div>
             </div>
-            
+
             {/* Loading Text */}
             <h2 className="text-2xl font-bold text-white mb-2">Logging you in...</h2>
             <p className="text-gray-400 text-sm">Authenticating with GitHub</p>
@@ -89,7 +88,7 @@ export default function GithubAuth() {
                 </svg>
               </div>
             </div>
-            
+
             {/* Success Text */}
             <h2 className="text-2xl font-bold text-green-400 mb-2">Login Successful!</h2>
             <p className="text-gray-400 text-sm">Redirecting you to dashboard...</p>
@@ -116,7 +115,7 @@ export default function GithubAuth() {
                 </svg>
               </div>
             </div>
-            
+
             {/* Error Text */}
             <h2 className="text-2xl font-bold text-red-400 mb-2">Authentication Failed</h2>
             <p className="text-gray-400 text-sm mb-4">{errorMessage}</p>
