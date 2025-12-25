@@ -7,6 +7,7 @@ import DOMPurify from 'dompurify';
 import { FaGithub, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { loginWithGoogle } from './api/loginWithGoogleApi';
 import { GITHUB_CLIENT_ID } from './config';
+import GoogleAuthModal from './components/GoogleAuthModal';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,9 @@ const Register = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [googleStatus, setGoogleStatus] = useState('loading');
+  const [googleError, setGoogleError] = useState('');
 
   const navigate = useNavigate();
 
@@ -178,302 +181,296 @@ const Register = () => {
   };
 
   // Loading Overlay Component (Only for Google)
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
-        <div className="text-center">
-          {/* Spinner */}
-          <div className="mb-6 flex justify-center">
-            <div className="relative w-20 h-20">
-              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-blue-500 rounded-full animate-spin"></div>
-            </div>
-          </div>
-
-          {/* Loading Text */}
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Creating your account...</h2>
-          <p className="text-sm sm:text-base text-gray-600">Signing you up with Google</p>
-
-          {/* Loading Progress Dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-lg">
-        <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10 border border-gray-200">
-          {/* Header */}
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
-            <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  autoComplete="name"
-                  onChange={handleChange}
-                  className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
-                />
-              </div>
-              {errors.name && (
-                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
-                  <p className="text-red-700 text-sm flex items-start gap-2">
-                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                    <span className="leading-relaxed">{errors.name}</span>
-                  </p>
-                </div>
-              )}
+    <>
+      <GoogleAuthModal
+        isOpen={isGoogleLoading}
+        status={googleStatus}
+        errorMessage={googleError}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-6">
+        <div className="w-full max-w-lg">
+          <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10 border border-gray-200">
+            {/* Header */}
+            <div className="text-center mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+              <p className="text-sm sm:text-base text-gray-600">Enter your details to get started</p>
             </div>
 
-            {/* Email Field with OTP Button */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  required
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
-                />
-                <button
-                  type="button"
-                  onClick={handleSendOtp}
-                  disabled={isSending || countdown > 0 || otpVerified}
-                  className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
-                >
-                  {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
-                </button>
-              </div>
-              {errors.email && (
-                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
-                  <p className="text-red-700 text-sm flex items-start gap-2">
-                    <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                    <span className="leading-relaxed">{errors.email}</span>
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Server Error Message - Separate Alert Box */}
-            {serverError && (
-              <div className="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
-                <p className="text-red-700 text-sm flex items-start gap-2">
-                  <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                  <span className="leading-relaxed">{serverError}</span>
-                </p>
-              </div>
-            )}
-
-            {/* OTP Input Field */}
-            {otpSent && (
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Enter OTP</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
                 <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                   <input
                     type="text"
-                    maxLength={4}
-                    placeholder="Enter 4-digit OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(DOMPurify.sanitize(e.target.value))}
-                    className="w-full pl-4 pr-28 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center text-lg font-semibold tracking-widest"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleVerifyOtp}
-                    disabled={isVerifying || otpVerified}
-                    className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${otpVerified
-                      ? 'bg-green-600 text-white cursor-default'
-                      : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+                    name="name"
+                    required
+                    placeholder="Enter your full name"
+                    value={formData.name}
+                    autoComplete="name"
+                    onChange={handleChange}
+                    className={`w-full pl-5 pr-4 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
                       }`}
-                  >
-                    {isVerifying ? (
-                      'Verifying...'
-                    ) : otpVerified ? (
-                      <>
-                        <FaCheckCircle /> Verified
-                      </>
-                    ) : (
-                      'Verify'
-                    )}
-                  </button>
+                  />
                 </div>
-
-                {/* OTP Error Message - Separate Alert Box */}
-                {otpError && (
-                  <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                {errors.name && (
+                  <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
                     <p className="text-red-700 text-sm flex items-start gap-2">
                       <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                      <span className="leading-relaxed">{otpError}</span>
+                      <span className="leading-relaxed">{errors.name}</span>
                     </p>
                   </div>
                 )}
+              </div>
 
-                {/* OTP Success Message */}
-                {otpVerified && (
-                  <p className="text-green-600 text-sm mt-2 flex items-center gap-2 animate-fadeIn">
-                    <FaCheckCircle /> Email verified successfully!
-                  </p>
+              {/* Email Field with OTP Button */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                  <input
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full pl-5 pr-28 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                      }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isSending || countdown > 0 || otpVerified}
+                    className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                  >
+                    {isSending ? 'Sending...' : countdown > 0 ? `${countdown}s` : 'Send OTP'}
+                  </button>
+                </div>
+                {errors.email && (
+                  <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                    <p className="text-red-700 text-sm flex items-start gap-2">
+                      <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                      <span className="leading-relaxed">{errors.email}</span>
+                    </p>
+                  </div>
                 )}
               </div>
-            )}
 
-            {/* Password Field */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                <input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="password"
-                  required
-                  placeholder="Create a strong password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`w-full pl-5 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                    }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
-                  title={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                </button>
-              </div>
-              {errors.password && (
-                <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+              {/* Server Error Message - Separate Alert Box */}
+              {serverError && (
+                <div className="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
                   <p className="text-red-700 text-sm flex items-start gap-2">
                     <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
-                    <span className="leading-relaxed">{errors.password}</span>
+                    <span className="leading-relaxed">{serverError}</span>
                   </p>
                 </div>
               )}
+
+              {/* OTP Input Field */}
+              {otpSent && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Enter OTP</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      maxLength={4}
+                      placeholder="Enter 4-digit OTP"
+                      value={otp}
+                      onChange={(e) => setOtp(DOMPurify.sanitize(e.target.value))}
+                      className="w-full pl-4 pr-28 py-3 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center text-lg font-semibold tracking-widest"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleVerifyOtp}
+                      disabled={isVerifying || otpVerified}
+                      className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 flex items-center gap-1 ${otpVerified
+                        ? 'bg-green-600 text-white cursor-default'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+                        }`}
+                    >
+                      {isVerifying ? (
+                        'Verifying...'
+                      ) : otpVerified ? (
+                        <>
+                          <FaCheckCircle /> Verified
+                        </>
+                      ) : (
+                        'Verify'
+                      )}
+                    </button>
+                  </div>
+
+                  {/* OTP Error Message - Separate Alert Box */}
+                  {otpError && (
+                    <div className="mt-2 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                      <p className="text-red-700 text-sm flex items-start gap-2">
+                        <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                        <span className="leading-relaxed">{otpError}</span>
+                      </p>
+                    </div>
+                  )}
+
+                  {/* OTP Success Message */}
+                  {otpVerified && (
+                    <p className="text-green-600 text-sm mt-2 flex items-center gap-2 animate-fadeIn">
+                      <FaCheckCircle /> Email verified successfully!
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Password Field */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+                  <input
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="password"
+                    required
+                    placeholder="Create a strong password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`w-full pl-5 pr-12 py-3 border rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.password ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                      }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                    title={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <div className="mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded-r-lg animate-fadeIn">
+                    <p className="text-red-700 text-sm flex items-start gap-2">
+                      <span className="text-red-500 font-bold flex-shrink-0 mt-0.5">⚠</span>
+                      <span className="leading-relaxed">{errors.password}</span>
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={!otpVerified || isSuccess}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg disabled:transform-none"
+              >
+                {isSuccess ? '✓ Registration Successful!' : 'Create Account'}
+              </button>
+            </form>
+
+            {/* Login Link */}
+            <p className="text-center mt-5 text-sm text-gray-700">
+              Already have an account?{' '}
+              <Link
+                className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
+                to="/login"
+              >
+                Sign In
+              </Link>
+            </p>
+
+            {/* Divider */}
+            <div className="relative text-center my-6">
+              <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gray-300"></div>
+              <span className="relative bg-white px-4 text-xs sm:text-sm text-gray-600 font-medium">
+                Or continue with
+              </span>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={!otpVerified || isSuccess}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg disabled:transform-none"
-            >
-              {isSuccess ? '✓ Registration Successful!' : 'Create Account'}
-            </button>
-          </form>
-
-          {/* Login Link */}
-          <p className="text-center mt-5 text-sm text-gray-700">
-            Already have an account?{' '}
-            <Link
-              className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors"
-              to="/login"
-            >
-              Sign In
-            </Link>
-          </p>
-
-          {/* Divider */}
-          <div className="relative text-center my-6">
-            <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gray-300"></div>
-            <span className="relative bg-white px-4 text-xs sm:text-sm text-gray-600 font-medium">
-              Or continue with
-            </span>
-          </div>
-
-          {/* Social Login Buttons */}
-          <div className="w-full max-w-lg flex gap-3 justify-center items-center m-auto flex-wrap">
-            {/* Google Login */}
-            <div className="flex-shrink-0">
-              <GoogleLogin
-                onSuccess={async (cred) => {
-                  try {
-                    setIsLoading(true);
-                    console.log("google response data:", cred.credential)
-                    const data = await loginWithGoogle(cred.credential);
-                    console.log("Google Login Data Client-Side:", data)
-                    if (!data.error) {
+            {/* Social Login Buttons */}
+            <div className="w-full max-w-lg flex gap-3 justify-center items-center m-auto flex-wrap">
+              {/* Google Login */}
+              <div className="flex-shrink-0">
+                <GoogleLogin
+                  onSuccess={async (cred) => {
+                    try {
+                      setIsGoogleLoading(true);
+                      setGoogleStatus('loading');
+                      console.log("google response data:", cred.credential)
+                      const data = await loginWithGoogle(cred.credential);
+                      console.log("Google Login Data Client-Side:", data)
+                      if (!data.error) {
+                        setGoogleStatus('success');
+                        setTimeout(() => {
+                          navigate('/');
+                        }, 1500);
+                      } else {
+                        setGoogleStatus('error');
+                        setGoogleError(data.error || 'Google login failed');
+                        setTimeout(() => {
+                          setIsGoogleLoading(false);
+                        }, 3000);
+                      }
+                    } catch (error) {
+                      setGoogleStatus('error');
+                      setGoogleError('Failed to process Google login');
                       setTimeout(() => {
-                        navigate('/');
-                      }, 1500);
-                    } else {
-                      setIsLoading(false);
-                      setServerError(data.error || 'Google login failed');
+                        setIsGoogleLoading(false);
+                      }, 3000);
+                      console.error('Google login error:', error);
                     }
-                  } catch (error) {
-                    setIsLoading(false);
-                    setServerError('Failed to process Google login');
-                    console.error('Google login error:', error);
-                  }
-                }}
-                onError={() => {
-                  setServerError('Google login failed');
-                  console.log('Google Login Failed')
-                }}
-                type="standard"
-                theme="outline"
-                text="continue_with"
-                shape="rectangular"
-                logo_alignment="center"
-                width={200}
-                auto_select={false}
-                useOneTap={true}
-              />
+                  }}
+                  onError={() => {
+                    setGoogleStatus('error');
+                    setGoogleError('Google login failed');
+                    setIsGoogleLoading(true);
+                    setTimeout(() => {
+                      setIsGoogleLoading(false);
+                    }, 3000);
+                    console.log('Google Login Failed')
+                  }}
+                  type="standard"
+                  theme="outline"
+                  text="continue_with"
+                  shape="rectangular"
+                  logo_alignment="center"
+                  width={200}
+                  auto_select={false}
+                  useOneTap={true}
+                />
+              </div>
+              {/* Vertical Divider - Hidden on wrap */}
+              <div className="hidden sm:block w-px h-10 bg-gray-300 flex-shrink-0"></div>
+
+              {/* GitHub Login */}
+              <button
+                onClick={handleGithubLogin}
+                className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
+                style={{ width: '200px' }}
+              >
+                <FaGithub className="text-xl text-black" />
+                <span className="text-gray-800">Continue with GitHub</span>
+              </button>
             </div>
 
-            {/* Vertical Divider - Hidden on wrap */}
-            <div className="hidden sm:block w-px h-10 bg-gray-300 flex-shrink-0"></div>
-
-            {/* GitHub Login */}
-            <button
-              onClick={handleGithubLogin}
-              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
-              style={{ width: '200px' }}
-            >
-              <FaGithub className="text-xl text-black" />
-              <span className="text-gray-800">Continue with GitHub</span>
-            </button>
+            {/* Footer Note */}
+            <p className="text-center text-xs text-gray-500 mt-6">
+              By continuing, you agree to our{' '}
+              <Link to="/terms-of-service" className="text-blue-600 hover:underline">
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link to="/privacy-policy" className="text-blue-600 hover:underline">
+                Privacy Policy
+              </Link>
+            </p>
           </div>
-
-          {/* Footer Note */}
-          <p className="text-center text-xs text-gray-500 mt-6">
-            By continuing, you agree to our{' '}
-            <Link to="/terms-of-service" className="text-blue-600 hover:underline">
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link to="/privacy-policy" className="text-blue-600 hover:underline">
-              Privacy Policy
-            </Link>
-          </p>
         </div>
       </div>
-    </div>
+
+    </>
   );
 };
 
