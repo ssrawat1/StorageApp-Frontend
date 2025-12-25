@@ -12,13 +12,11 @@ export default function GithubAuth() {
     const run = async () => {
       const params = new URLSearchParams(location.search);
       const code = params.get('code');
-      console.log({ code });
-
+ 
       if (location.pathname === '/auth/github' && code) {
         try {
           setStatus('loading');
           const data = await loginWithGithub(code);
-          console.log({ data });
           setStatus('success');
 
           // Small delay to show success state
@@ -36,7 +34,6 @@ export default function GithubAuth() {
           }, 3000);
         }
       } else {
-        console.log('Github Login Failed: No code found');
         setStatus('error');
         setErrorMessage('No authorization code found');
 
