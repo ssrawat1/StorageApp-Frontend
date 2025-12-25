@@ -62,7 +62,7 @@ function DirectoryView() {
       setFilesList([...data.files].reverse());
       setBreadcrumbPath(data.breadcrumbPath);
     } catch (err) {
-      if (err.response?.status === 401) navigate('/home');
+      if (err.response?.status === 401) navigate('/login');
       else {
         const errorMsg = err.response?.data?.error || err.message;
         setErrorMessage(errorMsg);
