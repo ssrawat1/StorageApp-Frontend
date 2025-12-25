@@ -248,7 +248,9 @@ const Login = () => {
                     const data = await loginWithGoogle(cred.credential);
                     console.log("Google Login Data Client-Side:", data)
                     if (!data.error) {
-                      navigate('/');
+                      setTimeout(() => {
+                        navigate('/');
+                      }, 1500);
                     } else {
                       setIsLoading(false);
                       setServerError(data.error || 'Google login failed');
