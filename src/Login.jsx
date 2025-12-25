@@ -20,6 +20,7 @@ const Login = () => {
 
   const [serverError, setServerError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   // Validation function
@@ -97,6 +98,34 @@ const Login = () => {
     )}&scope=${scope}`;
   };
 
+  // Loading Overlay Component (Only for Google)
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
+        <div className="text-center">
+          {/* Spinner */}
+          <div className="mb-6 flex justify-center">
+            <div className="relative w-20 h-20">
+              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-blue-500 rounded-full animate-spin"></div>
+            </div>
+          </div>
+
+          {/* Loading Text */}
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Signing you in...</h2>
+          <p className="text-sm sm:text-base text-gray-600">Authenticating with Google</p>
+
+          {/* Loading Progress Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-lg">
@@ -153,7 +182,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className=" cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                   title={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
@@ -182,7 +211,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className=" cursor-pointer w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               Sign In
             </button>
@@ -213,12 +242,28 @@ const Login = () => {
             <div className="flex-shrink-0">
               <GoogleLogin
                 onSuccess={async (cred) => {
-                  console.log("google response data:", cred.credential)
-                  const data = await loginWithGoogle(cred.credential);
-                  console.log("Google Login Data Client-Side:", data)
-                  if (!data.error) navigate('/');
+                  try {
+                    setIsLoading(true);
+                    console.log("google response data:", cred.credential)
+                    const data = await loginWithGoogle(cred.credential);
+                    console.log("Google Login Data Client-Side:", data)
+                    if (!data.error) {
+                      navigate('/');
+                    } else {
+                      setIsLoading(false);
+                      setServerError(data.error || 'Google login failed');
+                    }
+                  } catch (error) {
+                    setIsLoading(false);
+                    setServerError('Failed to process Google login');
+                    console.error('Google login error:', error);
+                  }
                 }}
-                onError={() => console.log('Google Login Failed')}
+                onError={() => {
+                  setIsLoading(false);
+                  setServerError('Google login failed');
+                  console.log('Google Login Failed')
+                }}
                 type="standard"
                 theme="outline"
                 text="continue_with"
@@ -236,7 +281,7 @@ const Login = () => {
             {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
-              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm "
+              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
               style={{ width: '200px' }}
             >
               <FaGithub className="text-xl text-black" />

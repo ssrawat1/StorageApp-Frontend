@@ -31,6 +31,7 @@ const Register = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -175,6 +176,34 @@ const Register = () => {
       redirectUri
     )}&scope=${scope}`;
   };
+
+  // Loading Overlay Component (Only for Google)
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6">
+        <div className="text-center">
+          {/* Spinner */}
+          <div className="mb-6 flex justify-center">
+            <div className="relative w-20 h-20">
+              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-blue-500 rounded-full animate-spin"></div>
+            </div>
+          </div>
+
+          {/* Loading Text */}
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Creating your account...</h2>
+          <p className="text-sm sm:text-base text-gray-600">Signing you up with Google</p>
+
+          {/* Loading Progress Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-6">
@@ -379,28 +408,49 @@ const Register = () => {
 
           {/* Social Login Buttons */}
           <div className="w-full max-w-lg flex gap-3 justify-center items-center m-auto flex-wrap">
-            {/* Google Login - Full Width */}
-            <GoogleLogin
-              onSuccess={async (cred) => {
-                const data = await loginWithGoogle(cred.credential);
-                if (!data.error) navigate('/');
-              }}
-              onError={() => console.log('Google Login Failed')}
-              type="standard"
-              theme="outline"
-              text="continue_with"
-              shape="rectangular"
-              logo_alignment="center"
-              width={200}
-              auto_select={false}
-              useOneTap={true}
-            />
+            {/* Google Login */}
+            <div className="flex-shrink-0">
+              <GoogleLogin
+                onSuccess={async (cred) => {
+                  try {
+                    setIsLoading(true);
+                    console.log("google response data:", cred.credential)
+                    const data = await loginWithGoogle(cred.credential);
+                    console.log("Google Login Data Client-Side:", data)
+                    if (!data.error) {
+                      navigate('/');
+                    } else {
+                      setIsLoading(false);
+                      setServerError(data.error || 'Google login failed');
+                    }
+                  } catch (error) {
+                    setIsLoading(false);
+                    setServerError('Failed to process Google login');
+                    console.error('Google login error:', error);
+                  }
+                }}
+                onError={() => {
+                  setServerError('Google login failed');
+                  console.log('Google Login Failed')
+                }}
+                type="standard"
+                theme="outline"
+                text="continue_with"
+                shape="rectangular"
+                logo_alignment="center"
+                width={200}
+                auto_select={false}
+                useOneTap={true}
+              />
+            </div>
+
             {/* Vertical Divider - Hidden on wrap */}
             <div className="hidden sm:block w-px h-10 bg-gray-300 flex-shrink-0"></div>
-            {/* GitHub Login - Full Width */}
+
+            {/* GitHub Login */}
             <button
               onClick={handleGithubLogin}
-              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm "
+              className="flex-shrink-0 cursor-pointer flex items-center px-2 py-2.5 justify-center gap-3 border-1 bg-white border-gray-200 rounded-sm hover:bg-blue-50 transition-all duration-200 text-sm"
               style={{ width: '200px' }}
             >
               <FaGithub className="text-xl text-black" />
