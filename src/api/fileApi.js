@@ -20,7 +20,6 @@ export const uploadFileWithProgress = async (dirId, file, filename, onUploadProg
     },
     onUploadProgress,
   });
-  console.log('Upload status:', data);
   return data;
 };
 

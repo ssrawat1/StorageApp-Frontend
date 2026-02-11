@@ -230,9 +230,7 @@ const Login = () => {
                     try {
                       setIsGoogleLoading(true);
                       setGoogleStatus('loading');
-                      console.log("google response data:", cred.credential)
                       const data = await loginWithGoogle(cred.credential);
-                      console.log("Google Login Data Client-Side:", data)
                       if (!data.error) {
                         setGoogleStatus('success');
                         setTimeout(() => {
@@ -261,7 +259,6 @@ const Login = () => {
                     setTimeout(() => {
                       setIsGoogleLoading(false);
                     }, 3000);
-                    console.log('Google Login Failed')
                   }}
                   type="standard"
                   theme="outline"

@@ -48,16 +48,13 @@ export default function UsersPage() {
   const handleRoleSubmit = async (e) => {
     e.preventDefault();
     if (!roleAllowed.includes(capitalizeRole(newRole) || !newRole)) {
-      console.log({ newRole: capitalizeRole(newRole) });
       setRoleError(`Invalid role. Allowed roles are: ${roleAllowed.join(', ')}`);
       return;
     }
     try {
       const data = await roleChange({ roleId, role: capitalizeRole(newRole) });
-      console.log('Role change Response:', data);
       setNewRole('');
     } catch (err) {
-      console.log('Error While Assigning Role:', err);
       setInvalidRoleError(err.response.data.error);
       if (err.response?.status === 403) setResStatus(err.response.status);
       else if (err.response?.status === 401) setResStatus(err.response.status);
@@ -129,7 +126,6 @@ export default function UsersPage() {
       setUsers(data);
     } catch (err) {
       const errorMessage = err.response?.data?.error || 'Access denied';
-      console.log('err:', errorMessage);
 
       if (err.response?.status === 403) {
         setToastMessage(errorMessage);
