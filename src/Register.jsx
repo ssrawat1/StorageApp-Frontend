@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { sendOtp, verifyOtp } from './api/authApi';
 import { registerUser } from './api/userApi';
 import DOMPurify from 'dompurify';
@@ -37,6 +37,9 @@ const Register = () => {
   const [googleError, setGoogleError] = useState('');
 
   const navigate = useNavigate();
+
+  /* For One Tab Login: */
+  googleLogout()
 
   useEffect(() => {
     if (countdown > 0) {
@@ -347,7 +350,7 @@ const Register = () => {
                     className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     title={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                    {!showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                   </button>
                 </div>
                 {errors.password && (
