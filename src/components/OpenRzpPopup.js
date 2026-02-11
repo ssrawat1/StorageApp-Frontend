@@ -16,10 +16,6 @@ const OpenRzpPopup = ({ subscriptionId }) => {
     subscription_id: subscriptionId,
 
     handler: async function (res) {
-      console.log(res);
-      console.log(res.razorpay_payment_id);
-      console.log(res.razorpay_order_id);
-      console.log(res.razorpay_signature);
     },
     description: `User has been purchased new subscription`,
   });
@@ -27,7 +23,6 @@ const OpenRzpPopup = ({ subscriptionId }) => {
   rzp.open();
 
   rzp.on('payment.failed', function (response) {
-    console.log(response.error);
   });
 
   return rzp;

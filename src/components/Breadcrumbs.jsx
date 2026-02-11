@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 
 const Breadcrumbs = ({ breadcrumbPath }) => {
-  console.log({ breadcrumbPathInComponent: breadcrumbPath });
-  if (!breadcrumbPath?.length) return null;
+   if (!breadcrumbPath?.length) return null;
 
   return (
     <div className="px-4 py-3 mb-4">

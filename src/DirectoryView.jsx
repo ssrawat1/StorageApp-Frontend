@@ -49,7 +49,6 @@ function DirectoryView() {
   const [deleteItem, setDeleteItem] = useState(null);
 
   const openDetailsPopup = (item) => {
-    console.log(item);
     setDetailsItem(item);
   };
   const closeDetailsPopup = () => setDetailsItem(null);
@@ -190,7 +189,6 @@ function DirectoryView() {
   }
 
   function startUpload({ item, uploadUrl, fileId }) {
-    console.log({ uploadUrl });
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
 
@@ -206,7 +204,6 @@ function DirectoryView() {
     xhr.onload = async () => {
       if (xhr.status === 200) {
         const response = await uploadComplete(fileId);
-        console.log({ response: response });
       } else {
         setErrorMessage('File upload failed!');
         setShowErrorModal(true);
@@ -326,7 +323,7 @@ function DirectoryView() {
           onDismiss={(e) => {
             setShowErrorModal("");
             setErrorMessage('');
-           }}
+          }}
           onRetry={() => {
             setShowErrorModal(false);
             setErrorMessage('');

@@ -106,10 +106,9 @@ const Login = () => {
 
   return (
     <>
-      {/* Google Auth Modal */}
-      <GoogleAuthModal 
-        isOpen={isGoogleLoading} 
-        status={googleStatus} 
+      <GoogleAuthModal
+        isOpen={isGoogleLoading}
+        status={googleStatus}
         errorMessage={googleError}
       />
 
