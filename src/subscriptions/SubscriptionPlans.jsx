@@ -247,7 +247,7 @@ const SubscriptionPlans = () => {
           ))}
         </div>
 
-        {/* Trust Indicators - Marquee at Bottom */}
+        {/*Marquee at Bottom */}
         <div className="bg-white rounded-xl shadow-md py-3 sm:py-4 border border-gray-200 overflow-hidden">
           <marquee
             behavior="scroll"
