@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchAllUsers, fetchUser, deleteUserById, logoutUserById } from './api/userApi';
-import CreateRoleMode from './components/CreateRoleMode';
-import { roleChange } from './api/roleChangeApi';
-import ActionModal from './components/ActionModel';
+import { fetchAllUsers, fetchUser, deleteUserById, logoutUserById } from '../api/userApi';
+import CreateRoleMode from '../components/CreateRoleMode';
+import { roleChange } from '../api/roleChangeApi';
+import ActionModal from '../components/ActionModel';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);

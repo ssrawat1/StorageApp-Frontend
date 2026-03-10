@@ -14,7 +14,6 @@ const OpenRzpPopup = ({ subscriptionId }) => {
     theme: '#528FF0',
     // order_id: orderId,
     subscription_id: subscriptionId,
-
     handler: async function (res) {
     },
     description: `User has been purchased new subscription`,

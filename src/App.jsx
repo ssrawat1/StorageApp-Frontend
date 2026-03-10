@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import DirectoryView from './DirectoryView';
-import Register from './Register';
-import Login from './Login';
-import UsersPage from './UsersPage';
 import GithubAuth from './components/GithubAuth';
-import SubscriptionPlans from './components/SubscriptionPlans';
-import NotFoundPage from './NotFoundPage';
+import SubscriptionPlans from './subscriptions/SubscriptionPlans';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import Register from './auth/Register';
+import Login from './auth/Login';
+import NotFoundPage from './pages/NotFoundPage';
+import UsersPage from './rbac/UsersPage';
 
 const router = createBrowserRouter([
   {

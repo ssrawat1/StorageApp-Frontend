@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import { sendOtp, verifyOtp } from './api/authApi';
-import { registerUser } from './api/userApi';
+import { sendOtp, verifyOtp } from '../api/authApi';
+import { registerUser } from '../api/userApi';
 import DOMPurify from 'dompurify';
 import { FaGithub, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { loginWithGoogle } from './api/loginWithGoogleApi';
-import { GITHUB_CLIENT_ID } from './config';
-import GoogleAuthModal from './components/GoogleAuthModal';
+import { loginWithGoogle } from '../api/loginWithGoogleApi';
+import { GITHUB_CLIENT_ID } from '../config';
+import GoogleAuthModal from '../components/GoogleAuthModal';
 
 const Register = () => {
   const [formData, setFormData] = useState({

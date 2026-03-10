@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FaHome, FaCheck, FaShieldAlt, FaThumbsUp, FaClock, FaDatabase } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { createSubscription } from '../api/subscriptionApi';
-import OpenRzpPopup from './OpenRzpPopup.js';
+import { createSubscription } from '../api/subscriptionApi.js';
+import OpenRzpPopup from '../payments/OpenRzpPopup.js';
 
 const SubscriptionPlans = () => {
   const [plan, setPlan] = useState('monthly');
